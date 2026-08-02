@@ -44,8 +44,11 @@ const Home = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   const navigate = useNavigate();
-  const { notifications, addNotification, markAllAsRead } = useNotification();
-  const VPS_URL = 'http://143.244.171.232.nip.io';
+  const notificationsContext = useNotification();
+  const notifications = notificationsContext ? notificationsContext.notifications : [];
+  const addNotification = notificationsContext ? notificationsContext.addNotification : () => {};
+  const markAllAsRead = notificationsContext ? notificationsContext.markAllAsRead : () => {};
+  const VPS_URL = 'https://marvel.viewflix.space';
 
   useEffect(() => {
     const fetchAllData = async () => {
