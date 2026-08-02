@@ -316,7 +316,7 @@ const Home = ({ userDoc }) => {
     <div className="home-container">
       <Header user={auth.currentUser} userDoc={userDoc} onLogout={handleLogout} />
       <MobileNav />
-      <SearchOverlay onPlayRequest={handlePlayRequest} />
+      <SearchOverlay onCardClick={setSelectedItem} />
 
       {heroItems.length > 0 && (
         <div id="hero">

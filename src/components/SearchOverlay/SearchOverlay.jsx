@@ -6,7 +6,7 @@ import Card from '../Card/Card';
 import mcuData from '../../data/mcu_full.json';
 import styles from './SearchOverlay.module.css';
 
-const SearchOverlay = ({ onPlayRequest }) => {
+const SearchOverlay = ({ onCardClick }) => {
   const { isSearchOpen, closeSearch } = useUIStore();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -89,8 +89,8 @@ const SearchOverlay = ({ onPlayRequest }) => {
 
   const handleCardClick = (item) => {
     closeSearch();
-    if (onPlayRequest) {
-      onPlayRequest(item);
+    if (onCardClick) {
+      onCardClick(item);
     }
   };
 
