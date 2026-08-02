@@ -69,7 +69,15 @@ const Home = () => {
         const fullCatalog = [...mcuData, ...outrosFilmes];
         
         // --- Hero Items (Com Capa Horizontal / Backdrop) ---
-        const itemsWithBackdrop = fullCatalog.filter(m => m.info && m.info.backdrop_path && m.info.backdrop_path.length > 0);
+        const itemsWithBackdrop = fullCatalog.filter(m => {
+          if (!m.info || !m.info.backdrop_path || m.info.backdrop_path.length === 0) return false;
+          if (m.type === 'series') return false;
+          const title = (m.info.name || m.name || "").toLowerCase();
+          if (title.includes('4k') || title.includes('uhd')) return false;
+          if (title.includes('[l]') || title.includes('legendado')) return false;
+          if (m.category === "Qualidade CINEMA") return false;
+          return true;
+        });
         // Embaralha e pega 10 filmes pro Hero
         const shuffled = itemsWithBackdrop.sort(() => 0.5 - Math.random());
         setHeroItems(shuffled.slice(0, 10));
