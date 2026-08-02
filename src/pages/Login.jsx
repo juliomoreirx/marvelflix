@@ -10,11 +10,18 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
   const navigate = useNavigate();
 
   const containerRef = useRef(null);
   const formRef = useRef(null);
   const imageRef = useRef(null);
+
+  useEffect(() => {
+    if (localStorage.getItem('marvel_blocked') === 'true') {
+      setIsBlocked(true);
+    }
+  }, []);
 
   useEffect(() => {
     // Animação GSAP de entrada (Split-screen)
@@ -80,38 +87,54 @@ const Login = () => {
           
           {error && <div className={styles.errorMessage}>{error}</div>}
           
-          <form onSubmit={handleAuth} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <input 
-                type="email" 
-                placeholder=" "
-                className={styles.input} 
-                value={email} 
-                onChange={e => setEmail(e.target.value)}
-                required
-              />
-              <label className={styles.label}>Email do Agente</label>
+          {isBlocked ? (
+            <div style={{textAlign: 'center', marginTop: '2rem'}}>
+              <h2 style={{color: '#e50914', marginBottom: '1rem'}}>ACESSO REVOGADO</h2>
+              <p style={{color: '#fff', marginBottom: '2rem'}}>Seu acesso a esta plataforma foi bloqueado pelo administrador.</p>
+              <button 
+                className={styles.submitBtn} 
+                onClick={() => {
+                  localStorage.removeItem('marvel_blocked');
+                  setIsBlocked(false);
+                }}
+              >
+                <span className={styles.btnText}>OK</span>
+              </button>
             </div>
-            
-            <div className={styles.inputGroup}>
-              <input 
-                type="password" 
-                placeholder=" "
-                className={styles.input}
-                value={password} 
-                onChange={e => setPassword(e.target.value)}
-                required
-              />
-              <label className={styles.label}>Senha de Acesso</label>
-            </div>
-            
-            <button type="submit" className={styles.submitBtn} disabled={loading}>
-              <span className={styles.btnText}>
-                {loading ? 'Processando...' : 'Autorizar Acesso'}
-              </span>
-              <span className={styles.btnScanner}></span>
-            </button>
-          </form>
+          ) : (
+            <form onSubmit={handleAuth} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <input 
+                  type="email" 
+                  placeholder=" "
+                  className={styles.input} 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                />
+                <label className={styles.label}>Email do Agente</label>
+              </div>
+              
+              <div className={styles.inputGroup}>
+                <input 
+                  type="password" 
+                  placeholder=" "
+                  className={styles.input}
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                />
+                <label className={styles.label}>Senha de Acesso</label>
+              </div>
+              
+              <button type="submit" className={styles.submitBtn} disabled={loading}>
+                <span className={styles.btnText}>
+                  {loading ? 'Processando...' : 'Autorizar Acesso'}
+                </span>
+                <span className={styles.btnScanner}></span>
+              </button>
+            </form>
+          )}
           
         </div>
       </div>

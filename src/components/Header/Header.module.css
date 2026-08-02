@@ -44,16 +44,24 @@
 }
 
 .desktopNav a {
-  color: var(--text-hi);
-  font-family: var(--font-body);
-  font-size: 14px;
+  text-decoration: none;
+  color: #e5e5e5;
   font-weight: 500;
-  opacity: 0.7;
-  transition: opacity var(--transition-fast);
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
 }
 
 .desktopNav a:hover {
-  opacity: 1;
+  color: #b1b1b1;
+}
+
+.adminLink {
+  color: #e50914 !important;
+  font-weight: bold !important;
+}
+
+.adminLink:hover {
+  color: #ff3b30 !important;
 }
 
 .toggleWrapper {

@@ -23,7 +23,7 @@ import { useNotification } from '../context/NotificationContext';
 import { FaSignOutAlt, FaBars, FaPlay, FaBell, FaSearch } from 'react-icons/fa';
 import './Home.css';
 
-const Home = () => {
+const Home = ({ userDoc }) => {
   const [movies4k, setMovies4k] = useState([]);
   const [moviesLeg, setMoviesLeg] = useState([]);
   const [moviesStd, setMoviesStd] = useState([]);
@@ -310,7 +310,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Header user={auth.currentUser} onLogout={handleLogout} />
+      <Header user={auth.currentUser} userDoc={userDoc} onLogout={handleLogout} />
       <MobileNav />
       <SearchOverlay onPlayRequest={handlePlayRequest} />
 

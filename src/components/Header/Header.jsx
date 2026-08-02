@@ -10,7 +10,7 @@ import styles from './Header.module.css';
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, userDoc, onLogout }) => {
   const { 
     toggleMobileMenu, 
     toggleSearch, 
@@ -76,6 +76,9 @@ const Header = ({ user, onLogout }) => {
                 <Link to="/home" onClick={(e) => scrollToId('filmes-4k', e)}>Filmes</Link>
                 <Link to="/home" onClick={(e) => scrollToId('series', e)}>Séries</Link>
               </>
+            )}
+            {userDoc?.role === 'admin' && (window.location.hostname.includes('dev') || window.location.hostname === 'localhost') && (
+              <Link to="/admin" className={styles.adminLink}>Painel Administrativo</Link>
             )}
           </nav>
         </div>
