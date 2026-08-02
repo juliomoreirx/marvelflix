@@ -6,12 +6,10 @@ import gsap from 'gsap';
 import styles from './Login.module.css';
 
 const Login = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
   const containerRef = useRef(null);
@@ -45,19 +43,15 @@ const Login = () => {
     setError('');
     setLoading(true);
     try {
-      if (isRegistering) {
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCred.user, { displayName: name });
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-      }
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/home');
     } catch (err) {
       console.error(err);
-      if (err.code === 'auth/email-already-in-use') setError('Este email já está em uso.');
-      else if (err.code === 'auth/invalid-credential') setError('Credenciais inválidas.');
-      else if (err.code === 'auth/weak-password') setError('A senha deve ter pelo menos 6 caracteres.');
-      else setError('Erro na autenticação.');
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        setError('Credenciais inválidas ou acesso negado.');
+      } else {
+        setError('Erro na autenticação.');
+      }
     }
     setLoading(false);
   };
@@ -81,28 +75,12 @@ const Login = () => {
           
           <div className={styles.headerBox}>
             <h1 className={styles.title}>Marvel<span className={styles.red}>Flix</span></h1>
-            <p className={styles.subtitle}>
-              {isRegistering ? 'Cadastre suas Credenciais' : 'Identificação Necessária'}
-            </p>
+            <p className={styles.subtitle}>Identificação Necessária</p>
           </div>
           
           {error && <div className={styles.errorMessage}>{error}</div>}
           
           <form onSubmit={handleAuth} className={styles.form}>
-            {isRegistering && (
-              <div className={styles.inputGroup}>
-                <input 
-                  type="text" 
-                  placeholder=" " 
-                  className={styles.input}
-                  value={name} 
-                  onChange={e => setName(e.target.value)}
-                  required
-                />
-                <label className={styles.label}>Nome do Agente</label>
-              </div>
-            )}
-            
             <div className={styles.inputGroup}>
               <input 
                 type="email" 
@@ -129,15 +107,12 @@ const Login = () => {
             
             <button type="submit" className={styles.submitBtn} disabled={loading}>
               <span className={styles.btnText}>
-                {loading ? 'Processando...' : (isRegistering ? 'Criar Conta' : 'Autorizar Acesso')}
+                {loading ? 'Processando...' : 'Autorizar Acesso'}
               </span>
               <span className={styles.btnScanner}></span>
             </button>
           </form>
           
-          <p className={styles.switchMode} onClick={() => setIsRegistering(!isRegistering)}>
-            {isRegistering ? 'Já possui credencial? Fazer login' : 'Primeiro acesso? Solicitar credencial'}
-          </p>
         </div>
       </div>
       
