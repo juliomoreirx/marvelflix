@@ -12474,58 +12474,6 @@
     "seasons": null
   },
   {
-    "id": 405772,
-    "name": "Loki: Arnaldo Baptista",
-    "type": "movie",
-    "info": {
-      "kinopoisk_url": "https://www.themoviedb.org/movie/62717",
-      "tmdb_id": 62717,
-      "name": "Loki: Arnaldo Baptista",
-      "o_name": "Loki: Arnaldo Baptista",
-      "cover_big": "https://assets.marvel.viewflix.space/0d52b9847cac2a63d0620404661ada80.png",
-      "movie_image": "https://assets.marvel.viewflix.space/0d52b9847cac2a63d0620404661ada80.png",
-      "release_date": "19-06-2009",
-      "episode_run_time": 121,
-      "youtube_trailer": null,
-      "director": "Paulo Henrique Fontenelle",
-      "actors": "Arnaldo Baptista, Rita Lee, Sérgio Dias, Os Mutantes, Tom Zé",
-      "cast": "Arnaldo Baptista, Rita Lee, Sérgio Dias, Os Mutantes, Tom Zé",
-      "description": "Documentário sobre a vida e a obra do músico brasileiro Arnaldo Baptista, fundador da banda Os Mutantes, um dos grupos mais importantes da Tropicália. Depoimentos de vários músicos e parceiros e show da banda com nova formação.",
-      "plot": "Documentário sobre a vida e a obra do músico brasileiro Arnaldo Baptista, fundador da banda Os Mutantes, um dos grupos mais importantes da Tropicália. Depoimentos de vários músicos e parceiros e show da banda com nova formação.",
-      "age": "",
-      "mpaa_rating": "",
-      "rating_count_kinopoisk": 0,
-      "country": "Brazil",
-      "genre": "Documentário, Música",
-      "backdrop_path": [
-        "https://assets.marvel.viewflix.space/eb9c1ebb7d090c8018a7310f2cc9f73e.jpg"
-      ],
-      "duration_secs": 7285,
-      "duration": "02:01:25",
-      "bitrate": 2983,
-      "rating": 6.8,
-      "releasedate": "19-06-2009",
-      "subtitles": []
-    },
-    "movie_data": {
-      "stream_id": 405772,
-      "name": "Loki: Arnaldo Baptista",
-      "title": "Loki: Arnaldo Baptista",
-      "year": "2009",
-      "added": "1782141574",
-      "category_id": "36",
-      "category_ids": [
-        36,
-        42
-      ],
-      "container_extension": "mp4",
-      "custom_sid": "",
-      "direct_source": ""
-    },
-    "episodes": null,
-    "seasons": null
-  },
-  {
     "id": 408412,
     "name": "Homem de Ferro 3 [L]",
     "type": "movie",

@@ -129,8 +129,8 @@
   gap: 12px;
   height: 56px;
   padding: 0 32px;
-  background: var(--text-hi);
-  color: var(--bg);
+  background: var(--ember);
+  color: white;
   border: none;
   border-radius: var(--radius-sm);
   font-family: var(--font-display);
@@ -142,17 +142,11 @@
 }
 
 .playBtn:hover:not(:disabled) {
-  background: var(--text-lo);
+  background: #ff4747;
   transform: scale(1.05);
 }
 
-.playBtnPrepare {
-  background: var(--ember);
-  color: white;
-}
-.playBtnPrepare:hover:not(:disabled) {
-  background: #ff4747;
-}
+
 
 .playBtn:disabled {
   opacity: 0.7;
