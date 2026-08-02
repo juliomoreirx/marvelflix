@@ -9341,11 +9341,7 @@
       "director": "Destin Daniel Cretton",
       "releasedate": null,
       "backdrop_path": [
-        "http://pfsv.io:80/images/566525_movie_backdrop_0.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_1.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_2.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_3.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_4.jpg"
+        "https://assets.marvel.viewflix.space/shang-shi-e-a-lenda-dos-aneis.webp"
       ],
       "duration_secs": 7940,
       "duration": "02:12:20",
@@ -9399,7 +9395,7 @@
       "country": "",
       "genre": "Ação, Aventura, Fantasia",
       "backdrop_path": [
-        "http://pfsv.io:80/images/566525_movie_backdrop_0.jpg"
+        "https://assets.marvel.viewflix.space/shang-shi-e-a-lenda-dos-aneis.webp"
       ],
       "duration_secs": 0,
       "duration": "00:00:00",
@@ -9442,11 +9438,7 @@
       "director": "Destin Daniel Cretton",
       "releasedate": null,
       "backdrop_path": [
-        "http://pfsv.io:80/images/566525_movie_backdrop_0.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_1.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_2.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_3.jpg",
-        "http://pfsv.io:80/images/566525_movie_backdrop_4.jpg"
+        "https://assets.marvel.viewflix.space/shang-shi-e-a-lenda-dos-aneis.webp"
       ],
       "duration_secs": 7940,
       "duration": "02:12:20",
@@ -10207,11 +10199,7 @@
       "director": "James Gunn",
       "releasedate": null,
       "backdrop_path": [
-        "http://pfsv.io:80/images/774752_movie_backdrop_0.jpg",
-        "http://pfsv.io:80/images/774752_movie_backdrop_1.jpg",
-        "http://pfsv.io:80/images/774752_movie_backdrop_2.jpg",
-        "http://pfsv.io:80/images/774752_movie_backdrop_3.jpg",
-        "http://pfsv.io:80/images/774752_movie_backdrop_4.jpg"
+        "https://assets.marvel.viewflix.space/guardiao-das-galaxias-especial-de-festas.webp"
       ],
       "duration_secs": 2515,
       "duration": "00:41:55",
@@ -10265,7 +10253,7 @@
       "country": "",
       "genre": "Comédia, Ficção científica, Aventura",
       "backdrop_path": [
-        "http://pfsv.io:80/images/774752_movie_backdrop_0.jpg"
+        "https://assets.marvel.viewflix.space/guardiao-das-galaxias-especial-de-festas.webp"
       ],
       "duration_secs": 2515,
       "duration": "00:41:55",
@@ -11109,7 +11097,7 @@
       "country": "United States of America",
       "genre": "Ação, Comédia, Ficção científica",
       "backdrop_path": [
-        "http://krkrkrkkrmewjnenejnee.com:80/images/6a10eb8196e03ad02d79c116e65e35b7.jpg"
+        "https://assets.marvel.viewflix.space/deadpool-e-wolverine.webp"
       ],
       "duration_secs": 7680,
       "duration": "02:08:00",
@@ -11161,7 +11149,7 @@
       "country": "United States of America",
       "genre": "Ação, Comédia, Ficção científica",
       "backdrop_path": [
-        "http://krkrkrkkrmewjnenejnee.com:80/images/6a10eb8196e03ad02d79c116e65e35b7.jpg"
+        "https://assets.marvel.viewflix.space/deadpool-e-wolverine.webp"
       ],
       "duration_secs": 7667,
       "duration": "02:07:47",
@@ -11212,7 +11200,7 @@
       "country": "United States of America",
       "genre": "Ação, Comédia, Ficção científica",
       "backdrop_path": [
-        "http://krkrkrkkrmewjnenejnee.com:80/images/6a10eb8196e03ad02d79c116e65e35b7.jpg"
+        "https://assets.marvel.viewflix.space/deadpool-e-wolverine.webp"
       ],
       "duration_secs": 7667,
       "duration": "02:07:47",
@@ -11849,108 +11837,6 @@
       "category_ids": [
         3117,
         28
-      ],
-      "container_extension": "mp4",
-      "custom_sid": "",
-      "direct_source": ""
-    },
-    "episodes": null,
-    "seasons": null
-  },
-  {
-    "id": 319766,
-    "name": "Pantera Negra: O Reino Selvagem [L]",
-    "type": "movie",
-    "info": {
-      "kinopoisk_url": "https://www.themoviedb.org/movie/813881",
-      "tmdb_id": 813881,
-      "name": "Pantera Negra: O Reino Selvagem [L]",
-      "o_name": "Pantera Negra: O Reino Selvagem [L]",
-      "cover_big": "https://assets.marvel.viewflix.space/263b5521cf9c73443e375f2bc5665d54.png",
-      "movie_image": "https://assets.marvel.viewflix.space/263b5521cf9c73443e375f2bc5665d54.png",
-      "release_date": "20-02-2020",
-      "episode_run_time": 44,
-      "youtube_trailer": null,
-      "director": "John Cullum",
-      "actors": "Salvatore Vecchio",
-      "cast": "Salvatore Vecchio",
-      "description": "Saya quer se proclamar rei da Floresta de Kabini, no sul da Índia. Ele é a única pantera negra desta selva, mas a linhagem não o favorece e o lugar abriga uma confederação rebelde de tribos de animais que competem por território, poder e recursos.",
-      "plot": "Saya quer se proclamar rei da Floresta de Kabini, no sul da Índia. Ele é a única pantera negra desta selva, mas a linhagem não o favorece e o lugar abriga uma confederação rebelde de tribos de animais que competem por território, poder e recursos.",
-      "age": "",
-      "mpaa_rating": "",
-      "rating_count_kinopoisk": 0,
-      "country": "United States",
-      "genre": "Documentário, Cinema TV",
-      "backdrop_path": [
-        "https://assets.marvel.viewflix.space/23f12b49289ca3b959f32b77e07f0618.jpg"
-      ],
-      "duration_secs": 2649,
-      "duration": "00:44:09",
-      "bitrate": 2982,
-      "rating": 6.4,
-      "releasedate": "20-02-2020",
-      "subtitles": []
-    },
-    "movie_data": {
-      "stream_id": 319766,
-      "name": "Pantera Negra: O Reino Selvagem [L]",
-      "title": "Pantera Negra: O Reino Selvagem [L]",
-      "year": "2020",
-      "added": "1753623488",
-      "category_id": "35",
-      "category_ids": [
-        35
-      ],
-      "container_extension": "mp4",
-      "custom_sid": "",
-      "direct_source": ""
-    },
-    "episodes": null,
-    "seasons": null
-  },
-  {
-    "id": 319767,
-    "name": "Pantera Negra: O Reino Selvagem",
-    "type": "movie",
-    "info": {
-      "kinopoisk_url": "https://www.themoviedb.org/movie/813881",
-      "tmdb_id": 813881,
-      "name": "Pantera Negra: O Reino Selvagem",
-      "o_name": "Pantera Negra: O Reino Selvagem",
-      "cover_big": "https://assets.marvel.viewflix.space/d3403ebb3bf6f0796e07ad21767f9714.png",
-      "movie_image": "https://assets.marvel.viewflix.space/d3403ebb3bf6f0796e07ad21767f9714.png",
-      "release_date": "20-02-2020",
-      "episode_run_time": 44,
-      "youtube_trailer": null,
-      "director": "John Cullum",
-      "actors": "Salvatore Vecchio",
-      "cast": "Salvatore Vecchio",
-      "description": "Saya quer se proclamar rei da Floresta de Kabini, no sul da Índia. Ele é a única pantera negra desta selva, mas a linhagem não o favorece e o lugar abriga uma confederação rebelde de tribos de animais que competem por território, poder e recursos.",
-      "plot": "Saya quer se proclamar rei da Floresta de Kabini, no sul da Índia. Ele é a única pantera negra desta selva, mas a linhagem não o favorece e o lugar abriga uma confederação rebelde de tribos de animais que competem por território, poder e recursos.",
-      "age": "",
-      "mpaa_rating": "",
-      "rating_count_kinopoisk": 0,
-      "country": "United States",
-      "genre": "Documentário, Cinema TV",
-      "backdrop_path": [
-        "https://assets.marvel.viewflix.space/23f12b49289ca3b959f32b77e07f0618.jpg"
-      ],
-      "duration_secs": 2649,
-      "duration": "00:44:09",
-      "bitrate": 2985,
-      "rating": 6.4,
-      "releasedate": "20-02-2020",
-      "subtitles": []
-    },
-    "movie_data": {
-      "stream_id": 319767,
-      "name": "Pantera Negra: O Reino Selvagem",
-      "title": "Pantera Negra: O Reino Selvagem",
-      "year": "2020",
-      "added": "1753623489",
-      "category_id": "42",
-      "category_ids": [
-        42
       ],
       "container_extension": "mp4",
       "custom_sid": "",

@@ -358,7 +358,7 @@
       "country": "United States of America",
       "genre": "Ação, Drama, Ficção científica",
       "backdrop_path": [
-        "https://assets.marvel.viewflix.space/12d72c736441e006c571cf551144c17d.jpg"
+        "https://assets.marvel.viewflix.space/logan.webp"
       ],
       "duration_secs": 8243,
       "duration": "02:17:23",
@@ -589,5 +589,53 @@
       "subtitles": []
     },
     "container_extension": "mp4"
+  },
+  {
+    "id": "289844",
+    "stream_id": "289844",
+    "name": "Logan [L]",
+    "type": "movie",
+    "info": {
+      "kinopoisk_url": "https://www.themoviedb.org/movie/263115",
+      "tmdb_id": 263115,
+      "name": "Logan [L]",
+      "o_name": "Logan [L]",
+      "cover_big": "http://lgfp.one/NCP5",
+      "movie_image": "http://lgfp.one/NCP5",
+      "release_date": "2017-02-28",
+      "episode_run_time": 135,
+      "youtube_trailer": "KPND6SgkN7Q",
+      "director": "Alexander Mackendrick, James Mangold, James Mangold",
+      "actors": "Hugh Jackman, Dafne Keen, Patrick Stewart, Elizabeth Rodriguez, Boyd Holbrook",
+      "cast": "Hugh Jackman, Dafne Keen, Patrick Stewart, Elizabeth Rodriguez, Boyd Holbrook",
+      "description": "Em 2029, Logan ganha a vida como chofer de limousine para cuidar do nonagen?rio Charles Xavier. Debilitado fisicamente e esgotado emocionalmente, ele ? procurado por Gabriela, uma mexicana que precisa da ajuda do ex-X-Men para defender a pequena Laura Kinney / X-23. Ao mesmo tempo em que se recusa a voltar ? ativa, Logan ? perseguido pelo mercen?rio Donald Pierce, interessado na menina.",
+      "plot": "Em 2029, Logan ganha a vida como chofer de limousine para cuidar do nonagen?rio Charles Xavier. Debilitado fisicamente e esgotado emocionalmente, ele ? procurado por Gabriela, uma mexicana que precisa da ajuda do ex-X-Men para defender a pequena Laura Kinney / X-23. Ao mesmo tempo em que se recusa a voltar ? ativa, Logan ? perseguido pelo mercen?rio Donald Pierce, interessado na menina.",
+      "age": "",
+      "mpaa_rating": "",
+      "rating_count_kinopoisk": 0,
+      "country": "United States of America",
+      "genre": "A??o, Drama, Fic??o cient?fica",
+      "backdrop_path": [
+        "https://assets.marvel.viewflix.space/logan.webp"
+      ],
+      "duration_secs": 8243,
+      "duration": "02:17:23",
+      "bitrate": 2979,
+      "rating": 7.82,
+      "releasedate": "2017-02-28",
+      "subtitles": [],
+      "stream_id": 289844,
+      "title": "Logan [L]",
+      "year": "2017",
+      "added": "1740423364",
+      "category_id": "35",
+      "category_ids": [
+        35
+      ],
+      "container_extension": "mp4",
+      "custom_sid": "",
+      "direct_source": ""
+    },
+    "category": "Outros Filmes (Expandido)"
   }
 ]
