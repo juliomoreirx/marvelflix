@@ -13,6 +13,7 @@ import Hero from '../components/Hero/Hero';
 import Row from '../components/Row/Row';
 import Skeleton from '../components/Skeleton/Skeleton';
 import Footer from '../components/Footer/Footer';
+import WelcomeModal from '../components/WelcomeModal/WelcomeModal';
 import useUIStore from '../store/uiStore';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
@@ -40,6 +41,7 @@ const Home = () => {
   const [playingItem, setPlayingItem] = useState(null); 
   const [menuOpen, setMenuOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -50,6 +52,13 @@ const Home = () => {
   const addNotification = notificationsContext ? notificationsContext.addNotification : () => {};
   const markAllAsRead = notificationsContext ? notificationsContext.markAllAsRead : () => {};
   const VPS_URL = 'https://marvel.viewflix.space';
+
+  useEffect(() => {
+    const hideWelcome = localStorage.getItem('marvelflix_hide_welcome');
+    if (!hideWelcome) {
+      setShowWelcomeModal(true);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -384,6 +393,10 @@ const Home = () => {
       )}
 
       <Footer />
+
+      {showWelcomeModal && (
+        <WelcomeModal onClose={() => setShowWelcomeModal(false)} />
+      )}
     </div>
   );
 };
