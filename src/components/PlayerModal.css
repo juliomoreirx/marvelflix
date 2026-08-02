@@ -1,0 +1,150 @@
+.player-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.player-modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 2rem;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.player-modal-overlay:hover .player-modal-header {
+  opacity: 1;
+}
+
+.player-modal-title {
+  color: white;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px black;
+}
+
+.player-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.player-close-btn:hover {
+  color: var(--marvel-red);
+}
+
+.player-modal-video-container {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --plyr-color-main: var(--marvel-red);
+  --plyr-video-background: transparent;
+}
+
+.plyr {
+  width: 100%;
+  height: 100%;
+}
+
+.plyr__controls {
+  z-index: 50 !important;
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)) !important;
+}
+
+.plyr--full-ui.plyr--video .plyr__control--overlaid {
+  background: var(--marvel-red) !important;
+}
+
+.btn-next-episode {
+  position: absolute;
+  bottom: 80px;
+  right: 40px;
+  background-color: var(--marvel-gold);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  animation: slideInFade 0.5s ease-out forwards;
+}
+
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.btn-next-episode:hover {
+  background-color: #d49532;
+  transform: scale(1.05) !important;
+}
+
+.hevc-disclaimer {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(226, 54, 54, 0.9);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.hevc-disclaimer a {
+  color: #f5b041;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.hevc-disclaimer a:hover {
+  text-decoration: underline;
+}
+
+/* Customizing native controls */
+video::-webkit-media-controls-panel {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+video::-webkit-media-controls-play-button {
+  color: var(--marvel-red);
+}

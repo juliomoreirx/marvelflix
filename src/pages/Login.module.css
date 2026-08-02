@@ -1,0 +1,240 @@
+.splitContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg);
+  overflow: hidden;
+}
+
+/* --- Left Image Panel --- */
+.imagePanel {
+  flex: 1.2;
+  position: relative;
+  background-image: url('https://image.tmdb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg');
+  background-size: cover;
+  background-position: center left;
+  display: flex;
+  align-items: flex-end;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10, 10, 15, 0.4) 0%, rgba(10, 10, 15, 0.9) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 10%;
+}
+
+.branding {
+  max-width: 400px;
+}
+
+.brandingTitle {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-hi);
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.brandingSub {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--ember);
+  letter-spacing: 0.1em;
+}
+
+/* --- Right Form Panel --- */
+.formPanel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--surface);
+  position: relative;
+  z-index: 2;
+  box-shadow: -20px 0 40px rgba(0,0,0,0.5);
+}
+
+.formBox {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+}
+
+.headerBox {
+  margin-bottom: 48px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--text-hi);
+  letter-spacing: -0.02em;
+}
+
+.red {
+  color: var(--ember);
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-lo);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.errorMessage {
+  background: rgba(226, 54, 54, 0.1);
+  border-left: 4px solid var(--ember);
+  color: var(--ember);
+  padding: 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+
+/* --- Inputs (Floating Labels) --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inputGroup {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 24px 16px 8px 16px;
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: 16px;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  color: var(--text-lo);
+  font-family: var(--font-body);
+  font-size: 16px;
+  pointer-events: none;
+  transition: all var(--transition-fast);
+}
+
+.input:focus {
+  border-color: var(--ember);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.input:focus ~ .label,
+.input:not(:placeholder-shown) ~ .label {
+  top: 8px;
+  font-size: 11px;
+  color: var(--ember);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+}
+
+/* --- Submit Button --- */
+.submitBtn {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background: var(--ember);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  overflow: hidden;
+  margin-top: 16px;
+  transition: transform var(--transition-fast), background 0.3s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ff4747;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnScanner {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: skewX(-20deg);
+}
+
+.submitBtn:hover:not(:disabled) .btnScanner {
+  animation: scan 1s forwards;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* --- Switch Mode --- */
+.switchMode {
+  margin-top: 32px;
+  text-align: center;
+  color: var(--text-lo);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.switchMode:hover {
+  color: var(--text-hi);
+  text-decoration: underline;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .splitContainer {
+    flex-direction: column;
+  }
+  
+  .imagePanel {
+    flex: 0.5;
+    background-position: top center;
+  }
+  
+  .brandingTitle {
+    font-size: 32px;
+  }
+  
+  .formPanel {
+    flex: 1;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    margin-top: -32px;
+  }
+}

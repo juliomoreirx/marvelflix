@@ -1,0 +1,100 @@
+/* 
+  MarvelFlix Premium Redesign - Theme Tokens 
+  "Terminal de Agência"
+*/
+
+:root {
+  /* Paleta Base */
+  --void:        #0A0A0F;   /* Fundo base */
+  --surface:     #13141C;   /* Cards, painéis */
+  --surface-alt: #1B1D29;   /* Hover de painel */
+  --ember:       #D62839;   /* Accent primário — ação, foco, progresso */
+  --gold:        #F0A202;   /* Accent secundário — destaque, badges premium */
+  --text-hi:     #F5F5F7;   /* Texto principal */
+  --text-lo:     #9CA3AF;   /* Texto secundário */
+  --line:        rgba(245,245,247,0.08); /* Divisores, bordas sutis */
+  
+  /* Tipografia */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* Espaçamentos e Raios */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  
+  /* Transições Base */
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-slow: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  /* Z-Index Hierarchy */
+  --z-overlay: 9999;
+  --z-header: 100;
+  --z-dropdown: 50;
+  --z-tooltip: 200;
+
+  /* Fallbacks Legado (Manter para não quebrar interface existente durante migração) */
+  --marvel-red: var(--ember);
+  --marvel-dark-red: #8B0000;
+  --bg-primary: var(--void);
+  --bg-secondary: var(--surface);
+  --bg-glass: rgba(19, 20, 28, 0.7);
+  --text-primary: var(--text-hi);
+  --text-secondary: var(--text-lo);
+}
+
+/* Reset Global & Configuração Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--void);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Utility Classes Padrão */
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--ember), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

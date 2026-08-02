@@ -1,0 +1,170 @@
+.skeletonContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg);
+  overflow: hidden;
+}
+
+/* Base Shimmer Effect */
+.shimmerBox {
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.shimmerBox::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 200%;
+  }
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4%;
+  z-index: 10;
+}
+
+.logoImg {
+  height: 32px;
+  opacity: 0.3;
+  filter: grayscale(100%);
+}
+
+.headerRight {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Hero */
+.hero {
+  width: 100%;
+  height: 85vh;
+  background: linear-gradient(0deg, var(--bg) 0%, transparent 50%), rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 4% 64px 4%;
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.badge {
+  width: 120px;
+  height: 24px;
+  border-radius: var(--radius-full);
+}
+
+.title {
+  width: 80%;
+  height: 64px;
+}
+
+.titleRow2 {
+  width: 50%;
+  height: 64px;
+}
+
+.desc {
+  width: 100%;
+  height: 16px;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.btn {
+  width: 200px;
+  height: 56px;
+}
+
+/* Row */
+.row {
+  padding: 0 4%;
+  margin-top: 32px;
+}
+
+.rowTitle {
+  width: 250px;
+  height: 24px;
+  margin-bottom: 24px;
+}
+
+.cardsScroll {
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.card {
+  width: 220px;
+  height: 330px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    padding-bottom: 32px;
+  }
+  
+  .title, .titleRow2 {
+    height: 40px;
+  }
+  
+  .btn {
+    width: 140px;
+    height: 48px;
+  }
+  
+  .card {
+    width: 140px;
+    height: 210px;
+  }
+}

@@ -1,0 +1,90 @@
+.rowSection {
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.rowTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-hi);
+  margin-bottom: 16px;
+  padding: 0 4%;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rowContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cardsScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 16px 4%;
+  
+  /* Esconde a barra de rolagem */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.cardsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.arrowBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: calc(100% - 32px); /* Desconta o padding top/bottom da row */
+  background: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(4px);
+  color: var(--text-hi);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity var(--transition-normal), background var(--transition-fast);
+}
+
+.rowContainer:hover .arrowBtn {
+  opacity: 1;
+}
+
+.arrowBtn:hover {
+  background: rgba(10, 10, 15, 0.9);
+  color: var(--ember);
+}
+
+.leftArrow {
+  left: 0;
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+.rightArrow {
+  right: 0;
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+
+/* Esconder setas no mobile, deixando apenas o scroll nativo */
+@media (max-width: 768px) {
+  .arrowBtn {
+    display: none;
+  }
+  
+  .cardsScroll {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+}

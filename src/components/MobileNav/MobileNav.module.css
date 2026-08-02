@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--void);
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 24px;
+  right: 4%;
+  font-size: 24px;
+  color: var(--text-hi);
+  padding: 8px;
+  transition: color var(--transition-fast);
+}
+
+.closeBtn:hover {
+  color: var(--ember);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-hi);
+  opacity: 0; /* Começa invisível para animação do anime.js */
+  transition: color var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--ember);
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: background var(--transition-fast);
+}
+
+.toggleWrapper:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.toggleLabel {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-hi);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toggleSwitch {
+  width: 48px;
+  height: 24px;
+  background: rgba(255,255,255,0.2);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: background var(--transition-normal);
+}
+
+.toggleSwitch.active {
+  background: var(--ember);
+}
+
+.toggleKnob {
+  width: 20px;
+  height: 20px;
+  background: var(--text-hi);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform var(--transition-normal);
+}
+
+.toggleSwitch.active .toggleKnob {
+  transform: translateX(24px);
+}

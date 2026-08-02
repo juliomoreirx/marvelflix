@@ -1,0 +1,139 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(16px);
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+  box-sizing: border-box;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 32px;
+  right: 4%;
+  font-size: 32px;
+  color: var(--text-hi);
+  opacity: 0.7;
+  transition: all var(--transition-fast);
+}
+
+.closeBtn:hover {
+  opacity: 1;
+  color: var(--ember);
+  transform: rotate(90deg);
+}
+
+.searchContainer {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  flex: 1;
+  min-height: 0;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  color: var(--text-lo);
+}
+
+.searchInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--line);
+  padding: 24px 24px 24px 80px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text-hi);
+  outline: none;
+  transition: border-color var(--transition-normal);
+}
+
+.searchInput::placeholder {
+  color: var(--text-lo);
+  opacity: 0.5;
+}
+
+.searchInput:focus {
+  border-color: var(--ember);
+}
+
+.resultsArea {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  
+  /* Esconde scrollbar nativo */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.resultsArea::-webkit-scrollbar {
+  display: none;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  justify-content: center;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 64px;
+  text-align: center;
+}
+
+.glitchText {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  color: var(--ember);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.emptyState p {
+  color: var(--text-lo);
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .searchInput {
+    font-size: 24px;
+    padding: 16px 16px 16px 56px;
+  }
+  
+  .searchIcon {
+    font-size: 24px;
+    left: 16px;
+  }
+  
+  .resultsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+}

@@ -1,0 +1,627 @@
+﻿[
+    {
+        "id":  1132,
+        "name":  "WandaVision",
+        "type":  "series"
+    },
+    {
+        "id":  1203,
+        "name":  "Falcão E O Soldado Invernal",
+        "type":  "series"
+    },
+    {
+        "id":  1339,
+        "name":  "Loki",
+        "type":  "series"
+    },
+    {
+        "id":  1767,
+        "name":  "What If ?",
+        "type":  "series"
+    },
+    {
+        "id":  1884,
+        "name":  "O Incrível Hulk",
+        "type":  "series"
+    },
+    {
+        "id":  2084,
+        "name":  "Gavião Arqueiro",
+        "type":  "series"
+    },
+    {
+        "id":  2177,
+        "name":  "Vingadores: Guerra Infinita 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  2191,
+        "name":  "Homem-Aranha: De Volta ao Lar [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2201,
+        "name":  "Vingadores: Ultimato 4K [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  2213,
+        "name":  "Guardiões da Galáxia [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2216,
+        "name":  "Thor: Ragnarok [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2227,
+        "name":  "Homem-Aranha: Longe De Casa [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2271,
+        "name":  "Doutor Estranho [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2275,
+        "name":  "Capitã Marvel [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2288,
+        "name":  "Homem-Formiga E A Vespa [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2290,
+        "name":  "Vingadores: Ultimato [4K]",
+        "type":  "movie"
+    },
+    {
+        "id":  2442,
+        "name":  "Cavaleiro da Lua",
+        "type":  "series"
+    },
+    {
+        "id":  2627,
+        "name":  "Ms. Marvel",
+        "type":  "series"
+    },
+    {
+        "id":  2790,
+        "name":  "Mulher-Hulk: Defensora de Heróis",
+        "type":  "series"
+    },
+    {
+        "id":  3097,
+        "name":  "Echo 3",
+        "type":  "series"
+    },
+    {
+        "id":  3151,
+        "name":  "Capitã Marvel [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  3354,
+        "name":  "Marvel Rising: Coração De Ferro",
+        "type":  "movie"
+    },
+    {
+        "id":  3601,
+        "name":  "Vingadores: Guerra Infinita",
+        "type":  "movie"
+    },
+    {
+        "id":  3606,
+        "name":  "Invasão Secreta",
+        "type":  "series"
+    },
+    {
+        "id":  3692,
+        "name":  "Homem-Formiga 3",
+        "type":  "movie"
+    },
+    {
+        "id":  3865,
+        "name":  "Homem-Formiga E A Vespa",
+        "type":  "movie"
+    },
+    {
+        "id":  3868,
+        "name":  "Thor",
+        "type":  "movie"
+    },
+    {
+        "id":  4467,
+        "name":  "Os Vingadores A Serie",
+        "type":  "series"
+    },
+    {
+        "id":  5979,
+        "name":  "Agatha Desde Sempre",
+        "type":  "series"
+    },
+    {
+        "id":  6984,
+        "name":  "Demolidor Renascido",
+        "type":  "series"
+    },
+    {
+        "id":  7725,
+        "name":  "Olhos de Wakanda",
+        "type":  "series"
+    },
+    {
+        "id":  7817,
+        "name":  "Homem de Ferro e seus Amigos Incriveis",
+        "type":  "series"
+    },
+    {
+        "id":  9773,
+        "name":  "Cavaleiro da Lua [L]",
+        "type":  "series"
+    },
+    {
+        "id":  9835,
+        "name":  "Demolidor: Renascido (2025) [L]",
+        "type":  "series"
+    },
+    {
+        "id":  10019,
+        "name":  "Os Vingadores: Os Super-Heróis Mais Poderosos da Terra",
+        "type":  "series"
+    },
+    {
+        "id":  60714,
+        "name":  "Homem-Aranha: De Volta Ao Lar",
+        "type":  "movie"
+    },
+    {
+        "id":  63189,
+        "name":  "Capitã Marvel",
+        "type":  "movie"
+    },
+    {
+        "id":  63190,
+        "name":  "Capitão América 2: O Soldado Invernal",
+        "type":  "movie"
+    },
+    {
+        "id":  63191,
+        "name":  "Capitão América: Guerra Civil",
+        "type":  "movie"
+    },
+    {
+        "id":  63192,
+        "name":  "Capitão América: O Primeiro Vingador",
+        "type":  "movie"
+    },
+    {
+        "id":  63214,
+        "name":  "Doutor Estranho",
+        "type":  "movie"
+    },
+    {
+        "id":  63230,
+        "name":  "Guardiões Da Galáxia",
+        "type":  "movie"
+    },
+    {
+        "id":  63237,
+        "name":  "Homem De Ferro",
+        "type":  "movie"
+    },
+    {
+        "id":  63239,
+        "name":  "Homem De Ferro 3",
+        "type":  "movie"
+    },
+    {
+        "id":  63240,
+        "name":  "Homem-Formiga",
+        "type":  "movie"
+    },
+    {
+        "id":  63241,
+        "name":  "Homem-Formiga E A Vespa 3",
+        "type":  "movie"
+    },
+    {
+        "id":  63298,
+        "name":  "O Incrível Hulk",
+        "type":  "movie"
+    },
+    {
+        "id":  63358,
+        "name":  "Thor",
+        "type":  "movie"
+    },
+    {
+        "id":  63359,
+        "name":  "Thor: O Mundo Sombrio",
+        "type":  "movie"
+    },
+    {
+        "id":  63360,
+        "name":  "Thor: Ragnarok",
+        "type":  "movie"
+    },
+    {
+        "id":  63382,
+        "name":  "Os Vingadores: The Avengers",
+        "type":  "movie"
+    },
+    {
+        "id":  63383,
+        "name":  "Vingadores: Era De Ultron",
+        "type":  "movie"
+    },
+    {
+        "id":  64484,
+        "name":  "Homem De Ferro 2",
+        "type":  "movie"
+    },
+    {
+        "id":  73467,
+        "name":  "Viúva Negra",
+        "type":  "movie"
+    },
+    {
+        "id":  100036,
+        "name":  "Shang-Chi e a Lenda dos Dez Anéis [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  100037,
+        "name":  "Shang-Chi e a Lenda dos Dez Anéis",
+        "type":  "movie"
+    },
+    {
+        "id":  100052,
+        "name":  "Shang-Chi e a Lenda dos Dez Anéis 4K [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  106237,
+        "name":  "Eternos [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  106238,
+        "name":  "Eternos",
+        "type":  "movie"
+    },
+    {
+        "id":  107182,
+        "name":  "Eternos 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  111298,
+        "name":  "Homem-Aranha: Sem Volta Para Casa [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  111301,
+        "name":  "Homem-Aranha: Sem Volta Para Casa",
+        "type":  "movie"
+    },
+    {
+        "id":  112026,
+        "name":  "Homem-Aranha: Sem Volta Para Casa 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  120155,
+        "name":  "Doutor Estranho no Multiverso da Loucura [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  120156,
+        "name":  "Doutor Estranho no Multiverso da Loucura",
+        "type":  "movie"
+    },
+    {
+        "id":  120185,
+        "name":  "Doutor Estranho no Multiverso da Loucura 4K [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  122648,
+        "name":  "Eternos Companheiros [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  122649,
+        "name":  "Eternos Companheiros",
+        "type":  "movie"
+    },
+    {
+        "id":  124531,
+        "name":  "Thor: Amor e Trovão 4K [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  124532,
+        "name":  "Thor: Amor e Trovão [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  124533,
+        "name":  "Thor: Amor e Trovão",
+        "type":  "movie"
+    },
+    {
+        "id":  128776,
+        "name":  "Lobisomem na Noite 4k [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  128777,
+        "name":  "Lobisomem na Noite [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  128778,
+        "name":  "Lobisomem na Noite",
+        "type":  "movie"
+    },
+    {
+        "id":  129960,
+        "name":  "Guardiões da Galáxia: Especial de Festas [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  129961,
+        "name":  "Guardiões da Galáxia: Especial de Festas",
+        "type":  "movie"
+    },
+    {
+        "id":  133110,
+        "name":  "Echo Boomers: A Geração Esquecida [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  133111,
+        "name":  "Echo Boomers: A Geração Esquecida",
+        "type":  "movie"
+    },
+    {
+        "id":  134090,
+        "name":  "Pantera Negra: Wakanda para Sempre 4K [Hybrid]",
+        "type":  "movie"
+    },
+    {
+        "id":  134091,
+        "name":  "Pantera Negra: Wakanda para Sempre [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  134092,
+        "name":  "Pantera Negra: Wakanda para Sempre",
+        "type":  "movie"
+    },
+    {
+        "id":  141272,
+        "name":  "Homem-Formiga e a Vespa: Quantumania 4K [Hybrid]",
+        "type":  "movie"
+    },
+    {
+        "id":  141273,
+        "name":  "Homem-Formiga e a Vespa: Quantumania",
+        "type":  "movie"
+    },
+    {
+        "id":  149680,
+        "name":  "Guardiões da Galáxia: Vol. 3 [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  153763,
+        "name":  "Guardiões da Galáxia Vol 3",
+        "type":  "movie"
+    },
+    {
+        "id":  153773,
+        "name":  "Guardiões da Galáxia: Vol. 3 4K [Hybrid]",
+        "type":  "movie"
+    },
+    {
+        "id":  191938,
+        "name":  "As Marvels",
+        "type":  "movie"
+    },
+    {
+        "id":  191939,
+        "name":  "As Marvels 4K [HDR]",
+        "type":  "movie"
+    },
+    {
+        "id":  191940,
+        "name":  "As Marvels 4K [Hybrid]",
+        "type":  "movie"
+    },
+    {
+        "id":  191941,
+        "name":  "As Marvels [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  232002,
+        "name":  "Thor: Deus do Trovão",
+        "type":  "movie"
+    },
+    {
+        "id":  232003,
+        "name":  "Thor: Deus do Trovão [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  249416,
+        "name":  "Deadpool \u0026 Wolverine",
+        "type":  "movie"
+    },
+    {
+        "id":  249417,
+        "name":  "Deadpool \u0026 Wolverine 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  249418,
+        "name":  "Deadpool \u0026 Wolverine [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  296943,
+        "name":  "Doutor Estranho (1978)",
+        "type":  "movie"
+    },
+    {
+        "id":  297787,
+        "name":  "O Incrível Hulk",
+        "type":  "movie"
+    },
+    {
+        "id":  298669,
+        "name":  "Guardiões da Galáxia Vol 2",
+        "type":  "movie"
+    },
+    {
+        "id":  300554,
+        "name":  "Homem-Aranha: Longe de Casa",
+        "type":  "movie"
+    },
+    {
+        "id":  300555,
+        "name":  "Homem-Aranha: Longe de Casa [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  301456,
+        "name":  "Vingadores: Ultimato",
+        "type":  "movie"
+    },
+    {
+        "id":  301457,
+        "name":  "Vingadores: Ultimato [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  306222,
+        "name":  "Capitão América: Admirável Mundo Novo [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  306223,
+        "name":  "Capitão América: Admirável Mundo Novo",
+        "type":  "movie"
+    },
+    {
+        "id":  306369,
+        "name":  "Capitão América: Admirável Mundo Novo 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  308229,
+        "name":  "Pantera Negra [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  308230,
+        "name":  "Pantera Negra",
+        "type":  "movie"
+    },
+    {
+        "id":  310009,
+        "name":  "Echo Valley [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  310010,
+        "name":  "Echo Valley",
+        "type":  "movie"
+    },
+    {
+        "id":  311373,
+        "name":  "Echo Valley 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  319766,
+        "name":  "Pantera Negra: O Reino Selvagem [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  319767,
+        "name":  "Pantera Negra: O Reino Selvagem",
+        "type":  "movie"
+    },
+    {
+        "id":  325448,
+        "name":  "Vingadores: Era de Ultron [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  325449,
+        "name":  "Vingadores: Era de Ultron",
+        "type":  "movie"
+    },
+    {
+        "id":  326207,
+        "name":  "Thunderbolts* [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  326208,
+        "name":  "Thunderbolts*",
+        "type":  "movie"
+    },
+    {
+        "id":  326250,
+        "name":  "Thunderbolts* 4K",
+        "type":  "movie"
+    },
+    {
+        "id":  341393,
+        "name":  "Quarteto Fantástico: Primeiros Passos [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  341394,
+        "name":  "Quarteto Fantástico: Primeiros Passos",
+        "type":  "movie"
+    },
+    {
+        "id":  376872,
+        "name":  "Vingadores: Guerra Infinita [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  391661,
+        "name":  "Homem de Ferro: A Batalha Contra Ezekiel Stane [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  391662,
+        "name":  "Homem de Ferro: A Batalha Contra Ezekiel Stane",
+        "type":  "movie"
+    },
+    {
+        "id":  405772,
+        "name":  "Loki: Arnaldo Baptista",
+        "type":  "movie"
+    },
+    {
+        "id":  408412,
+        "name":  "Homem de Ferro 3 [L]",
+        "type":  "movie"
+    },
+    {
+        "id":  409211,
+        "name":  "Guardiões da Galáxia: Vol. 3 4K [DV][HDR]",
+        "type":  "movie"
+    }
+]

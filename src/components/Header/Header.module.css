@@ -1,0 +1,302 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(10, 10, 15, 0.9) 0%, rgba(10, 10, 15, 0) 100%);
+  z-index: var(--z-header);
+  transition: background var(--transition-normal), height var(--transition-normal), backdrop-filter var(--transition-normal);
+  display: flex;
+  align-items: center;
+}
+
+.scrolled {
+  height: 64px;
+  background: rgba(19, 20, 28, 0.85); /* surface com opacidade */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.container {
+  width: 100%;
+  padding: 0 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left, .right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo img {
+  height: 24px;
+  object-fit: contain;
+}
+
+.desktopNav {
+  display: flex;
+  gap: 24px;
+  margin-left: 16px;
+}
+
+.desktopNav a {
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.desktopNav a:hover {
+  opacity: 1;
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.toggleWrapper:hover {
+  opacity: 1;
+}
+
+.toggleLabel {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-hi);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toggleSwitch {
+  width: 40px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: background var(--transition-normal);
+}
+
+.toggleSwitch.active {
+  background: var(--ember);
+}
+
+.toggleKnob {
+  width: 16px;
+  height: 16px;
+  background: var(--text-hi);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform var(--transition-normal);
+}
+
+.toggleSwitch.active .toggleKnob {
+  transform: translateX(20px);
+}
+
+.mobileToggle {
+  display: none;
+  font-size: 20px;
+  color: var(--text-hi);
+}
+
+.iconBtn {
+  font-size: 18px;
+  color: var(--text-hi);
+  opacity: 0.7;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.iconBtn:hover {
+  opacity: 1;
+  color: var(--ember);
+}
+
+.profileDropdown {
+  position: relative;
+}
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-hi);
+}
+
+.avatar {
+  font-size: 24px;
+}
+
+.agentName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-fast);
+}
+
+.profileDropdown:hover .dropdownMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.logoutBtn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ember);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.logoutBtn:hover {
+  background: rgba(214, 40, 57, 0.1);
+}
+
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+  .toggleWrapper {
+    display: none;
+  }
+  .mobileToggle {
+    display: block;
+  }
+  .agentName {
+    display: none;
+  }
+}
+
+.bellContainer {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.bellBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--ember);
+  color: var(--text-hi);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.notificationsDropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -10px;
+  width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  z-index: var(--z-dropdown);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: default;
+}
+
+.notificationsDropdown h4 {
+  margin: 0;
+  padding: 16px;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--text-hi);
+  font-family: var(--font-display);
+}
+
+.notificationsList {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.notificationsList::-webkit-scrollbar {
+  width: 4px;
+}
+.notificationsList::-webkit-scrollbar-thumb {
+  background: var(--ember);
+}
+
+.notifItem {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background var(--transition-fast);
+}
+
+.notifItem:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.notifItem.unread {
+  background: rgba(214, 40, 57, 0.08); /* ember com baixa opacidade */
+}
+
+.toastText strong {
+  font-size: 14px;
+  color: var(--text-hi);
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.toastText p {
+  font-size: 12px;
+  color: var(--text-lo);
+  margin: 0;
+}
+
+.notifEmpty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-lo);
+  font-size: 14px;
+  font-family: var(--font-mono);
+}
