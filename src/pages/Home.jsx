@@ -29,6 +29,7 @@ const Home = ({ userDoc }) => {
   const [moviesStd, setMoviesStd] = useState([]);
   const [moviesCinema, setMoviesCinema] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
+  const [outrosData, setOutrosData] = useState([]);
   const [continueWatching, setContinueWatching] = useState([]);
   const [availableMovieIds, setAvailableMovieIds] = useState([]);
   const [era1, setEra1] = useState([]);
@@ -38,7 +39,7 @@ const Home = ({ userDoc }) => {
   
   const [heroItems, setHeroItems] = useState([]);
 
-  const { isChronologicalMode, setPlayerOpen } = useUIStore();
+  const { isChronologicalMode, setPlayerOpen, customContent } = useUIStore();
   
   const [selectedItem, setSelectedItem] = useState(null); 
   const [playingItem, setPlayingItem] = useState(null); 
@@ -70,7 +71,7 @@ const Home = ({ userDoc }) => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const fullCatalog = [...mcuData, ...outrosFilmes];
+        const fullCatalog = [...mcuData, ...outrosFilmes, ...(customContent || [])];
         
         // --- Hero Items (Com Capa Horizontal / Backdrop) ---
         const itemsWithBackdrop = fullCatalog.filter(m => {
@@ -87,12 +88,14 @@ const Home = ({ userDoc }) => {
         setHeroItems(shuffled.slice(0, 10));
 
         const moviesDetail = mcuData.filter(item => item.type === 'movie' && item.info);
-        const seriesDetail = mcuData.filter(item => item.type === 'series' && item.info);
+        const seriesBase = mcuData.filter(item => item.type === 'series' && item.info);
 
         const m4k = [];
         const mLeg = [];
         const mStd = [];
         const mCin = [];
+        const mOutros = [...outrosFilmes];
+        const mSeries = [...seriesBase];
 
         moviesDetail.forEach(m => {
           const title = (m.info?.name || m.name || "").toLowerCase();
@@ -107,11 +110,22 @@ const Home = ({ userDoc }) => {
           }
         });
 
+        // Injeta o Custom Content
+        (customContent || []).forEach(c => {
+           if (c.category === 'movies4k') m4k.push(c);
+           else if (c.category === 'moviesLeg') mLeg.push(c);
+           else if (c.category === 'moviesStd') mStd.push(c);
+           else if (c.category === 'moviesCinema') mCin.push(c);
+           else if (c.category === 'outros') mOutros.push(c);
+           else if (c.category === 'series') mSeries.push(c);
+        });
+
         setMovies4k(m4k);
         setMoviesLeg(mLeg);
         setMoviesStd(mStd);
         setMoviesCinema(mCin);
-        setSeriesData(seriesDetail);
+        setOutrosData(mOutros);
+        setSeriesData(mSeries);
 
         // --- Lógica do Modo Cronológico ---
         const list1 = [
@@ -180,9 +194,27 @@ const Home = ({ userDoc }) => {
           return candidates[0];
         };
 
-        setEra1(list1.map(t => matchItem(t, mcuData)).filter(Boolean));
-        setEra2(list2.map(t => matchItem(t, mcuData)).filter(Boolean));
-        setEra3(list3.map(t => matchItem(t, mcuData)).filter(Boolean));
+        const e1 = list1.map(t => matchItem(t, mcuData)).filter(Boolean);
+        const e2 = list2.map(t => matchItem(t, mcuData)).filter(Boolean);
+        const e3 = list3.map(t => matchItem(t, mcuData)).filter(Boolean);
+
+        (customContent || []).forEach(c => {
+           const order = c.orderIndex !== undefined && c.orderIndex !== null ? parseInt(c.orderIndex, 10) : -1;
+           if (c.category === 'era1') {
+             if (order >= 0 && order <= e1.length) e1.splice(order, 0, c);
+             else e1.push(c);
+           } else if (c.category === 'era2') {
+             if (order >= 0 && order <= e2.length) e2.splice(order, 0, c);
+             else e2.push(c);
+           } else if (c.category === 'era3') {
+             if (order >= 0 && order <= e3.length) e3.splice(order, 0, c);
+             else e3.push(c);
+           }
+        });
+
+        setEra1(e1);
+        setEra2(e2);
+        setEra3(e3);
 
       } catch (e) {
         console.error("Error loading home data", e);
@@ -191,7 +223,10 @@ const Home = ({ userDoc }) => {
     };
 
     fetchAllData();
+  }, [customContent]); // Run when customContent from Firebase changes
 
+  // Auth & Continue Watching Effect
+  useEffect(() => {
     let cwUnsubscribe = null;
 
     const authUnsubscribe = onAuthStateChanged(auth, (user) => {
@@ -316,7 +351,7 @@ const Home = ({ userDoc }) => {
     <div className="home-container">
       <Header user={auth.currentUser} userDoc={userDoc} onLogout={handleLogout} />
       <MobileNav />
-      <SearchOverlay onPlayRequest={handlePlayRequest} />
+      <SearchOverlay onCardClick={setSelectedItem} />
 
       {heroItems.length > 0 && (
         <div id="hero">
@@ -384,7 +419,7 @@ const Home = ({ userDoc }) => {
               <Row 
                 id="outros"
                 title="Outros Filmes (Expandido)" 
-                items={outrosFilmes} 
+                items={outrosData} 
                 onCardClick={setSelectedItem} 
               />
               <Row 

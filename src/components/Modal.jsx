@@ -7,8 +7,6 @@ import { getProxyImageUrl } from '../api';
 import styles from './Modal.module.css';
 
 const Modal = ({ item, onClose, onPlay }) => {
-  const [isReady, setIsReady] = useState(false);
-  const [checking, setChecking] = useState(true);
   const [preparing, setPreparing] = useState(false);
   
   const modalRef = useRef(null);
@@ -29,30 +27,7 @@ const Modal = ({ item, onClose, onPlay }) => {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    let isMounted = true;
-    const checkAvailability = async () => {
-      setChecking(true);
-      try {
-        const isSeries = item.type === 'series' || !!item.episodes;
-        const streamId = item.stream_id || item.id;
-        
-        if (!isSeries && streamId) {
-          const url = `https://pub-09ab98d17ea14b829ca0167c510176c5.r2.dev/${streamId}/master.m3u8?_t=${Date.now()}`;
-          const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
-          if (res.ok && isMounted) setIsReady(true);
-        } else {
-          setIsReady(false);
-        }
-      } catch (e) {
-        console.error("Availability check failed", e);
-      }
-      if (isMounted) setChecking(false);
-    };
-
-    checkAvailability();
-    return () => { isMounted = false; };
-  }, [item]);
+  // Removing the old checking effect that pinged pub-09ab98d17ea14b829ca0167c510176c5.r2.dev
 
   if (!item) return null;
 
@@ -108,23 +83,16 @@ const Modal = ({ item, onClose, onPlay }) => {
             {!isSeries && (
               <div className={styles.actionGroup}>
                 <button 
-                  className={`${styles.playBtn} ${!isReady && !checking ? styles.playBtnPrepare : ''}`} 
+                  className={styles.playBtn} 
                   onClick={() => handlePlay(item.stream_id || item.id, item.container_extension || 'mp4')}
-                  disabled={checking || preparing}
+                  disabled={preparing}
                 >
-                  {checking ? (
-                    <><FaSpinner className="fa-spin" /> Verificando...</>
-                  ) : preparing ? (
+                  {preparing ? (
                     <><FaSpinner className="fa-spin" /> Preparando...</>
                   ) : (
                     <><FaPlay /> Iniciar Missão</>
                   )}
                 </button>
-                {!isReady && !checking && !preparing && (
-                  <p className={styles.disclaimer}>
-                    * Sincronização de alta qualidade em andamento. O dossiê pode levar de 2 a 5 minutos para carregar.
-                  </p>
-                )}
               </div>
             )}
           </div>

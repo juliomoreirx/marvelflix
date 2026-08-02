@@ -4,10 +4,11 @@ import anime from 'animejs';
 import useUIStore from '../../store/uiStore';
 import Card from '../Card/Card';
 import mcuData from '../../data/mcu_full.json';
+import outrosData from '../../data/outros_filmes.json';
 import styles from './SearchOverlay.module.css';
 
-const SearchOverlay = ({ onPlayRequest }) => {
-  const { isSearchOpen, closeSearch } = useUIStore();
+const SearchOverlay = ({ onCardClick }) => {
+  const { isSearchOpen, closeSearch, customContent } = useUIStore();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   
@@ -64,7 +65,8 @@ const SearchOverlay = ({ onPlayRequest }) => {
     }
 
     const q = query.toLowerCase();
-    const filtered = mcuData.filter(item => {
+    const allData = [...mcuData, ...outrosData, ...(customContent || [])];
+    const filtered = allData.filter(item => {
       const title = (item.info?.name || item.name || item.title || '').toLowerCase();
       return title.includes(q);
     });
@@ -88,9 +90,8 @@ const SearchOverlay = ({ onPlayRequest }) => {
   }, [results]);
 
   const handleCardClick = (item) => {
-    closeSearch();
-    if (onPlayRequest) {
-      onPlayRequest(item);
+    if (onCardClick) {
+      onCardClick(item);
     }
   };
 
