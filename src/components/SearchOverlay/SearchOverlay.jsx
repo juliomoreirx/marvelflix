@@ -88,7 +88,6 @@ const SearchOverlay = ({ onCardClick }) => {
   }, [results]);
 
   const handleCardClick = (item) => {
-    closeSearch();
     if (onCardClick) {
       onCardClick(item);
     }
