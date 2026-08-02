@@ -4,11 +4,12 @@ import { FaPlay, FaInfoCircle } from 'react-icons/fa';
 import { getProxyImageUrl } from '../../api';
 import styles from './Hero.module.css';
 
-const Hero = ({ user, featuredItem, onPlay, onInfo }) => {
+const Hero = ({ user, featuredItems, onPlay, onInfo }) => {
   const containerRef = useRef(null);
   const bootRef = useRef(null);
   const contentRef = useRef(null);
   const [bootComplete, setBootComplete] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     // Só roda a boot sequence uma vez por montagem (ou sessão, se quisermos usar sessionStorage depois)
@@ -38,8 +39,32 @@ const Hero = ({ user, featuredItem, onPlay, onInfo }) => {
 
   }, []);
 
-  if (!featuredItem) return null;
+  // Carousel Automático a cada 10 segundos
+  useEffect(() => {
+    if (!bootComplete || !featuredItems || featuredItems.length <= 1) return;
+    
+    const interval = setInterval(() => {
+       gsap.to(contentRef.current, { 
+          opacity: 0, 
+          duration: 0.4, 
+          ease: "power2.in",
+          onComplete: () => {
+             setCurrentIndex(prev => (prev + 1) % featuredItems.length);
+             // Trazemos de volta com fade e um pequeno zoom in
+             gsap.fromTo(contentRef.current, 
+                { opacity: 0, scale: 1.02 }, 
+                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
+             );
+          }
+       });
+    }, 10000);
+    
+    return () => clearInterval(interval);
+  }, [bootComplete, featuredItems]);
 
+  if (!featuredItems || featuredItems.length === 0) return null;
+
+  const featuredItem = featuredItems[currentIndex];
   const info = featuredItem.info || featuredItem;
   const backdropUrl = info.backdrop_path?.[0] ? getProxyImageUrl(info.backdrop_path[0]) : null;
   const agentName = user ? user.email?.split('@')[0].toUpperCase() : 'VISITANTE';

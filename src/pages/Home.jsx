@@ -36,6 +36,8 @@ const Home = () => {
   const [era3, setEra3] = useState([]);
   const [loading, setLoading] = useState(true);
   
+  const [heroItems, setHeroItems] = useState([]);
+
   const { isChronologicalMode } = useUIStore();
   
   const [selectedItem, setSelectedItem] = useState(null); 
@@ -64,6 +66,14 @@ const Home = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
+        const fullCatalog = [...mcuData, ...outrosFilmes];
+        
+        // --- Hero Items (Com Capa Horizontal / Backdrop) ---
+        const itemsWithBackdrop = fullCatalog.filter(m => m.info && m.info.backdrop_path && m.info.backdrop_path.length > 0);
+        // Embaralha e pega 10 filmes pro Hero
+        const shuffled = itemsWithBackdrop.sort(() => 0.5 - Math.random());
+        setHeroItems(shuffled.slice(0, 10));
+
         const moviesDetail = mcuData.filter(item => item.type === 'movie' && item.info);
         const seriesDetail = mcuData.filter(item => item.type === 'series' && item.info);
 
@@ -290,19 +300,17 @@ const Home = () => {
     return <Skeleton />;
   }
 
-  const featuredItem = moviesCinema.length > 0 ? moviesCinema[0] : (movies4k.length > 0 ? movies4k[0] : null);
-
   return (
     <div className="home-container">
       <Header user={auth.currentUser} onLogout={handleLogout} />
       <MobileNav />
       <SearchOverlay onPlayRequest={handlePlayRequest} />
 
-      {featuredItem && (
+      {heroItems.length > 0 && (
         <div id="hero">
           <Hero 
             user={auth.currentUser} 
-            featuredItem={featuredItem} 
+            featuredItems={heroItems} 
             onPlay={handlePlayRequest} 
             onInfo={setSelectedItem}
           />
