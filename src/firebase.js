@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCWhEj6Id9NemWfI3WgLpRSNoZrEwXLw_8",
-  authDomain: "marvelflix-view.firebaseapp.com",
-  projectId: "marvelflix-view",
-  storageBucket: "marvelflix-view.firebasestorage.app",
-  messagingSenderId: "1091852781392",
-  appId: "1:1091852781392:web:a269219c7e9a5c9b550e55"
+  apiKey: "AIzaSyCVx-MozdgWxRU0Au-TQWtucyXHohTTfpw",
+  authDomain: "marvelflix-space.firebaseapp.com",
+  projectId: "marvelflix-space",
+  storageBucket: "marvelflix-space.firebasestorage.app",
+  messagingSenderId: "403616432289",
+  appId: "1:403616432289:web:cde92414350d35b41670e0"
 };
 
 const app = initializeApp(firebaseConfig);
