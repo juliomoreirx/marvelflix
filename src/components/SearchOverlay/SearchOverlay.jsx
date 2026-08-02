@@ -4,6 +4,7 @@ import anime from 'animejs';
 import useUIStore from '../../store/uiStore';
 import Card from '../Card/Card';
 import mcuData from '../../data/mcu_full.json';
+import outrosData from '../../data/outros_filmes.json';
 import styles from './SearchOverlay.module.css';
 
 const SearchOverlay = ({ onCardClick }) => {
@@ -64,7 +65,8 @@ const SearchOverlay = ({ onCardClick }) => {
     }
 
     const q = query.toLowerCase();
-    const filtered = mcuData.filter(item => {
+    const allData = [...mcuData, ...outrosData];
+    const filtered = allData.filter(item => {
       const title = (item.info?.name || item.name || item.title || '').toLowerCase();
       return title.includes(q);
     });
