@@ -54,7 +54,7 @@ const Home = () => {
   const notifications = notificationsContext ? notificationsContext.notifications : [];
   const addNotification = notificationsContext ? notificationsContext.addNotification : () => {};
   const markAllAsRead = notificationsContext ? notificationsContext.markAllAsRead : () => {};
-  const VPS_URL = 'https://marvel.viewflix.space';
+  const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
 
   useEffect(() => {
     const hideWelcome = localStorage.getItem('marvelflix_hide_welcome');

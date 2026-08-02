@@ -1,5 +1,5 @@
 // URL da sua VPS (agora usando o mesmo domínio via Proxy Reverso)
-const VPS_URL = 'https://marvel.viewflix.space';
+const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
 
 // As funções de Auth agora pertencem ao Firebase (gerenciadas nos componentes)
 // Então aqui teremos apenas funções de dados e comunicação
