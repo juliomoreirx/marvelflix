@@ -18,3 +18,7 @@ export const auth = getAuth(app);
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 }, "marvelflix-firestore");
+
+// Secondary app para criar contas via Painel Admin sem deslogar a conta atual
+const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+export const secondaryAuth = getAuth(secondaryApp);

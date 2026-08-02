@@ -1,0 +1,203 @@
+.adminContainer {
+  min-height: 100vh;
+  background-color: #141414;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.adminContent {
+  padding: 100px 5% 50px;
+  flex: 1;
+}
+
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.adminHeader h1 {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tabBtn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #aaa;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.tabBtn:hover {
+  background: #222;
+  color: #fff;
+}
+
+.tabBtn.active {
+  background: #e50914;
+  border-color: #e50914;
+  color: #fff;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+}
+
+.card {
+  background: #1f1f1f;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.adminForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.adminForm input, .adminForm select, .adminForm textarea {
+  padding: 12px;
+  background: #333;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.primaryBtn {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.3s;
+}
+
+.primaryBtn:hover {
+  background: #f40612;
+}
+
+.msgText {
+  color: #4caf50;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.userItem {
+  background: #2b2b2b;
+  padding: 15px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.userInfo strong {
+  font-size: 1.1rem;
+}
+
+.userInfo span {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.userActions {
+  display: flex;
+  gap: 10px;
+}
+
+.statusBtn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+}
+
+.btnDanger {
+  background: #d32f2f;
+}
+
+.btnDanger:hover {
+  background: #f44336;
+}
+
+.btnSuccess {
+  background: #388e3c;
+}
+
+.btnSuccess:hover {
+  background: #4caf50;
+}
+
+.msgActive {
+  border-left: 5px solid #4caf50;
+}
+
+.msgInactive {
+  border-left: 5px solid #d32f2f;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+  .adminHeader {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+}

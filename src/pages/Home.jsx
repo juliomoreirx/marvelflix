@@ -23,7 +23,7 @@ import { useNotification } from '../context/NotificationContext';
 import { FaSignOutAlt, FaBars, FaPlay, FaBell, FaSearch } from 'react-icons/fa';
 import './Home.css';
 
-const Home = () => {
+const Home = ({ userDoc }) => {
   const [movies4k, setMovies4k] = useState([]);
   const [moviesLeg, setMoviesLeg] = useState([]);
   const [moviesStd, setMoviesStd] = useState([]);
@@ -38,7 +38,7 @@ const Home = () => {
   
   const [heroItems, setHeroItems] = useState([]);
 
-  const { isChronologicalMode } = useUIStore();
+  const { isChronologicalMode, setPlayerOpen } = useUIStore();
   
   const [selectedItem, setSelectedItem] = useState(null); 
   const [playingItem, setPlayingItem] = useState(null); 
@@ -54,7 +54,11 @@ const Home = () => {
   const notifications = notificationsContext ? notificationsContext.notifications : [];
   const addNotification = notificationsContext ? notificationsContext.addNotification : () => {};
   const markAllAsRead = notificationsContext ? notificationsContext.markAllAsRead : () => {};
-  const VPS_URL = 'https://marvel.viewflix.space';
+  const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
+
+  useEffect(() => {
+    setPlayerOpen(!!playingItem);
+  }, [playingItem, setPlayerOpen]);
 
   useEffect(() => {
     const hideWelcome = localStorage.getItem('marvelflix_hide_welcome');
@@ -310,7 +314,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Header user={auth.currentUser} onLogout={handleLogout} />
+      <Header user={auth.currentUser} userDoc={userDoc} onLogout={handleLogout} />
       <MobileNav />
       <SearchOverlay onPlayRequest={handlePlayRequest} />
 

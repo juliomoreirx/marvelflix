@@ -9,6 +9,8 @@ const useUIStore = create((set) => ({
   closeSearch: () => set({ isSearchOpen: false }),
   isChronologicalMode: false,
   toggleChronologicalMode: () => set((state) => ({ isChronologicalMode: !state.isChronologicalMode })),
+  isPlayerOpen: false,
+  setPlayerOpen: (isOpen) => set({ isPlayerOpen: isOpen }),
 }));
 
 export default useUIStore;
