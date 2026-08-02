@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mcuData from '../data/mcu_full.json';
+import outrosFilmes from '../data/outros_filmes.json';
 import { getProxyImageUrl } from '../api';
 import posterPlaceholder from '../assets/poster_placeholder.jpg';
 import appLogo from '../assets/logo.svg';
@@ -358,6 +359,12 @@ const Home = () => {
               <Row 
                 title="Universo Cinematográfico (Padrão/Dublado)" 
                 items={moviesStd} 
+                onCardClick={setSelectedItem} 
+              />
+              <Row 
+                id="outros"
+                title="Outros Filmes (Expandido)" 
+                items={outrosFilmes} 
                 onCardClick={setSelectedItem} 
               />
               <Row 
