@@ -38,7 +38,7 @@ const Home = ({ userDoc }) => {
   
   const [heroItems, setHeroItems] = useState([]);
 
-  const { isChronologicalMode } = useUIStore();
+  const { isChronologicalMode, setPlayerOpen } = useUIStore();
   
   const [selectedItem, setSelectedItem] = useState(null); 
   const [playingItem, setPlayingItem] = useState(null); 
@@ -55,6 +55,10 @@ const Home = ({ userDoc }) => {
   const addNotification = notificationsContext ? notificationsContext.addNotification : () => {};
   const markAllAsRead = notificationsContext ? notificationsContext.markAllAsRead : () => {};
   const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
+
+  useEffect(() => {
+    setPlayerOpen(!!playingItem);
+  }, [playingItem, setPlayerOpen]);
 
   useEffect(() => {
     const hideWelcome = localStorage.getItem('marvelflix_hide_welcome');

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../firebase';
+import useUIStore from '../../store/uiStore';
 import { FaInfoCircle, FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from 'react-icons/fa';
 import styles from './GlobalMessageModal.module.css';
 
 const GlobalMessageModal = () => {
   const [messages, setMessages] = useState([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const { isPlayerOpen } = useUIStore();
 
   useEffect(() => {
     // Escutar mensagens ativas
@@ -39,7 +41,7 @@ const GlobalMessageModal = () => {
     return () => unsubscribe();
   }, []);
 
-  if (messages.length === 0) return null;
+  if (messages.length === 0 || isPlayerOpen) return null;
 
   const currentMsg = messages[currentMessageIndex];
 
