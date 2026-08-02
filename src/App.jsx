@@ -25,6 +25,14 @@ const App = () => {
       setUser(currentUser);
       if (currentUser) {
         import('firebase/firestore').then(({ doc, onSnapshot, setDoc }) => {
+          
+          // Registra o lastLogin apenas 1x ao inicializar o app para este usuário,
+          // EVITANDO O LOOP INFINITO que estava ocorrendo dentro do onSnapshot.
+          setDoc(doc(db, "users", currentUser.uid), {
+            lastLogin: new Date().toISOString(),
+            email: currentUser.email
+          }, { merge: true }).catch(console.error);
+
           unsubUserDoc = onSnapshot(doc(db, "users", currentUser.uid), (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
@@ -33,11 +41,6 @@ const App = () => {
               if (data.status === 'blocked') {
                 localStorage.setItem('marvel_blocked', 'true');
                 import('firebase/auth').then(({ signOut }) => signOut(auth));
-              } else {
-                // Atualiza last login
-                setDoc(doc(db, "users", currentUser.uid), {
-                  lastLogin: new Date().toISOString()
-                }, { merge: true });
               }
             } else {
               setDoc(doc(db, "users", currentUser.uid), {
@@ -45,9 +48,13 @@ const App = () => {
                 role: 'user',
                 status: 'active',
                 lastLogin: new Date().toISOString()
-              }, { merge: true });
+              }, { merge: true }).catch(console.error);
             }
             setLoading(false);
+          }, (error) => {
+            console.error("User listener error:", error);
+            // Ignora o erro visualmente e permite carregar se estourar quota (embora falhará outras coisas)
+            setLoading(false); 
           });
         });
       } else {
