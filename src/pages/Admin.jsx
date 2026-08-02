@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, doc, setDoc, updateDoc, onSnapshot, addDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, updateDoc, onSnapshot, addDoc, deleteDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, secondaryAuth } from '../firebase';
 import Header from '../components/Header/Header';
-import { FaUserPlus, FaUserShield, FaBan, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUserPlus, FaUserShield, FaBan, FaCheck, FaExclamationTriangle, FaFilm, FaTrash, FaCheckSquare } from 'react-icons/fa';
+import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
+import useUIStore from '../store/uiStore';
 import styles from './Admin.module.css';
 
 const Admin = ({ userDoc, user }) => {
@@ -24,6 +26,21 @@ const Admin = ({ userDoc, user }) => {
   const [msgType, setMsgType] = useState('info'); // info, warning, danger, success
   const [msgTarget, setMsgTarget] = useState('dev'); // dev, all
   const [messages, setMessages] = useState([]);
+
+  // Estados de Gerenciamento de Conteudo
+  const customContent = useUIStore(state => state.customContent);
+  const [contentId, setContentId] = useState('');
+  const [contentType, setContentType] = useState('movie'); // movie ou series
+  const [contentCategory, setContentCategory] = useState('outros');
+  const [contentOrder, setContentOrder] = useState('');
+  const [customPoster, setCustomPoster] = useState('');
+  const [customBackdrop, setCustomBackdrop] = useState('');
+  const [contentMsg, setContentMsg] = useState('');
+  
+  const [selectedContents, setSelectedContents] = useState([]);
+  const [modalConfig, setModalConfig] = useState(null);
+  
+  const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
 
   useEffect(() => {
     // Segurança da Rota
@@ -118,6 +135,84 @@ const Admin = ({ userDoc, user }) => {
     });
   };
 
+  const handleAddContent = async (e) => {
+    e.preventDefault();
+    if (!contentId) return;
+    setContentMsg('Buscando dados...');
+    
+    try {
+      const action = contentType === 'series' ? 'get_series_info' : 'get_vod_info';
+      const response = await fetch(`${VPS_URL}/api/info?action=${action}&id=${contentId}`);
+      if (!response.ok) throw new Error('Falha ao buscar ID na VPS');
+      const data = await response.json();
+      
+      if (!data || !data.info) {
+        throw new Error('Conteúdo não encontrado ou inválido.');
+      }
+      
+      const newContent = {
+        ...data,
+        type: contentType,
+        category: contentCategory,
+        orderIndex: contentOrder ? parseInt(contentOrder, 10) : null
+      };
+      
+      if (customPoster) {
+        newContent.info.cover_big = customPoster;
+        newContent.info.movie_image = customPoster;
+      }
+      
+      if (customBackdrop) {
+        newContent.info.backdrop_path = [customBackdrop];
+      }
+      
+      await setDoc(doc(db, 'custom_content', contentId.toString()), newContent);
+      setContentMsg('Conteúdo adicionado com sucesso!');
+      setContentId('');
+      setCustomPoster('');
+      setCustomBackdrop('');
+      setContentOrder('');
+    } catch (err) {
+      setContentMsg(`Erro: ${err.message}`);
+    }
+  };
+
+  const handleSelectContent = (id) => {
+    setSelectedContents(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+  
+  const handleDeleteContent = (id) => {
+    setModalConfig({
+      title: 'Remover Conteúdo',
+      message: 'Tem certeza que deseja remover este conteúdo permanentemente?',
+      isDanger: true,
+      onConfirm: async () => {
+        await deleteDoc(doc(db, 'custom_content', id.toString()));
+        setModalConfig(null);
+      },
+      onCancel: () => setModalConfig(null)
+    });
+  };
+  
+  const handleBulkDelete = () => {
+    if (selectedContents.length === 0) return;
+    setModalConfig({
+      title: 'Excluir Selecionados',
+      message: `Tem certeza que deseja apagar ${selectedContents.length} conteúdos?`,
+      isDanger: true,
+      onConfirm: async () => {
+        for (const id of selectedContents) {
+           await deleteDoc(doc(db, 'custom_content', id.toString()));
+        }
+        setSelectedContents([]);
+        setModalConfig(null);
+      },
+      onCancel: () => setModalConfig(null)
+    });
+  };
+
   if (loading) return <div className="loader" style={{display:'flex', height:'100vh', justifyContent:'center', alignItems:'center'}}></div>;
 
   return (
@@ -139,6 +234,12 @@ const Admin = ({ userDoc, user }) => {
               onClick={() => setActiveTab('messages')}
             >
               Avisos Globais
+            </button>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'content' ? styles.active : ''}`}
+              onClick={() => setActiveTab('content')}
+            >
+              Gerenciar Conteúdo
             </button>
           </div>
         </div>
@@ -256,7 +357,118 @@ const Admin = ({ userDoc, user }) => {
           </div>
         )}
 
+        {activeTab === 'content' && (
+          <div className={styles.tabContent}>
+            <div className={styles.grid2}>
+              <div className={styles.card}>
+                <h2>Adicionar Conteúdo</h2>
+                <form onSubmit={handleAddContent} className={styles.adminForm}>
+                  <input 
+                    type="number" 
+                    placeholder="ID do Conteúdo" 
+                    value={contentId} 
+                    onChange={e => setContentId(e.target.value)} 
+                    required 
+                  />
+                  
+                  <select value={contentType} onChange={e => setContentType(e.target.value)}>
+                    <option value="movie">Filme</option>
+                    <option value="series">Série</option>
+                  </select>
+
+                  <select value={contentCategory} onChange={e => setContentCategory(e.target.value)}>
+                    <option value="era1">Cronologia - Era 1 (Origem)</option>
+                    <option value="era2">Cronologia - Era 2 (Expansão)</option>
+                    <option value="era3">Cronologia - Era 3 (Multiverso)</option>
+                    <option value="movies4k">Universo Cinematográfico (4K)</option>
+                    <option value="moviesLeg">Universo Cinematográfico (Legendado)</option>
+                    <option value="moviesStd">Universo Cinematográfico (Padrão/Dublado)</option>
+                    <option value="moviesCinema">Qualidade CINEMA</option>
+                    <option value="outros">Outros Filmes (Expandido)</option>
+                    <option value="series">Séries Expandidas</option>
+                  </select>
+
+                  {['era1', 'era2', 'era3'].includes(contentCategory) && (
+                    <input 
+                      type="number" 
+                      placeholder="Posição na Ordem (Ex: 0 = primeiro, vazio = final)" 
+                      value={contentOrder} 
+                      onChange={e => setContentOrder(e.target.value)} 
+                    />
+                  )}
+
+                  <input 
+                    type="url" 
+                    placeholder="URL da Capa (Opcional)" 
+                    value={customPoster} 
+                    onChange={e => setCustomPoster(e.target.value)} 
+                  />
+                  
+                  <input 
+                    type="url" 
+                    placeholder="URL do Fundo/Backdrop (Opcional)" 
+                    value={customBackdrop} 
+                    onChange={e => setCustomBackdrop(e.target.value)} 
+                  />
+
+                  <button type="submit" className={styles.primaryBtn}><FaFilm /> Buscar e Adicionar</button>
+                  {contentMsg && <p className={styles.msgText}>{contentMsg}</p>}
+                </form>
+              </div>
+
+              <div className={styles.card}>
+                <h2>Conteúdos Salvos ({(customContent || []).length})</h2>
+                {selectedContents.length > 0 && (
+                  <button className={`${styles.statusBtn} ${styles.btnDanger}`} onClick={handleBulkDelete} style={{marginBottom: '10px', width: '100%'}}>
+                    <FaTrash /> Excluir {selectedContents.length} selecionados
+                  </button>
+                )}
+                <div className={styles.userList}>
+                  {(customContent || []).map(c => (
+                    <div key={c.info?.id || Math.random()} className={styles.userItem}>
+                      <div className={styles.userInfo} style={{flexDirection: 'row', alignItems: 'center', gap: '15px'}}>
+                        <input 
+                          type="checkbox" 
+                          checked={selectedContents.includes(c.info?.id || c.name)}
+                          onChange={() => handleSelectContent(c.info?.id || c.name)}
+                        />
+                        <img 
+                          src={c.info?.cover_big || c.info?.movie_image} 
+                          alt="Capa" 
+                          style={{width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px'}}
+                        />
+                        <div>
+                          <strong>{c.info?.name || c.name}</strong>
+                          <span>ID: {c.info?.id} | Categoria: {c.category} {c.orderIndex !== null ? `(Posição: ${c.orderIndex})` : ''}</span>
+                        </div>
+                      </div>
+                      <div className={styles.userActions}>
+                          <button 
+                            className={`${styles.statusBtn} ${styles.btnDanger}`}
+                            onClick={() => handleDeleteContent(c.info?.id || c.name)}
+                            title="Remover Conteúdo"
+                          >
+                            <FaTrash />
+                          </button>
+                      </div>
+                    </div>
+                  ))}
+                  {(!customContent || customContent.length === 0) && (
+                    <p style={{color: '#888', textAlign: 'center'}}>Nenhum conteúdo customizado adicionado ainda.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
+      
+      {modalConfig && (
+        <ConfirmModal 
+          {...modalConfig}
+        />
+      )}
     </div>
   );
 };

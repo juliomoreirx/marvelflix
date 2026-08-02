@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Admin from './pages/Admin';
 import GlobalMessageModal from './components/GlobalMessageModal/GlobalMessageModal';
 
+import useUIStore from './store/uiStore';
+
 const App = () => {
   const [user, setUser] = useState(null);
   const [userDoc, setUserDoc] = useState(null);
@@ -20,11 +22,12 @@ const App = () => {
     // cache-sprite-plyr e plyr são do player e não contém dados sensíveis, mas podemos limpar o que for indesejado.
     
     let unsubUserDoc = null;
+    let unsubCustomContent = null;
 
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        import('firebase/firestore').then(({ doc, onSnapshot, setDoc }) => {
+        import('firebase/firestore').then(({ doc, collection, onSnapshot, setDoc }) => {
           
           // Registra o lastLogin apenas 1x ao inicializar o app para este usuário,
           // EVITANDO O LOOP INFINITO que estava ocorrendo dentro do onSnapshot.
@@ -56,10 +59,18 @@ const App = () => {
             // Ignora o erro visualmente e permite carregar se estourar quota (embora falhará outras coisas)
             setLoading(false); 
           });
+
+          unsubCustomContent = onSnapshot(collection(db, "custom_content"), (snap) => {
+            const customData = snap.docs.map(doc => doc.data());
+            useUIStore.getState().setCustomContent(customData);
+          }, (error) => {
+            console.error("Custom content listener error:", error);
+          });
         });
       } else {
         setUserDoc(null);
         if (unsubUserDoc) unsubUserDoc();
+        if (unsubCustomContent) unsubCustomContent();
         setLoading(false);
       }
     });
@@ -67,6 +78,7 @@ const App = () => {
     return () => {
       unsubscribe();
       if (unsubUserDoc) unsubUserDoc();
+      if (unsubCustomContent) unsubCustomContent();
     };
   }, []);
 

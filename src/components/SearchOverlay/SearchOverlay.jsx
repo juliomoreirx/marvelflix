@@ -8,7 +8,7 @@ import outrosData from '../../data/outros_filmes.json';
 import styles from './SearchOverlay.module.css';
 
 const SearchOverlay = ({ onCardClick }) => {
-  const { isSearchOpen, closeSearch } = useUIStore();
+  const { isSearchOpen, closeSearch, customContent } = useUIStore();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   
@@ -65,7 +65,7 @@ const SearchOverlay = ({ onCardClick }) => {
     }
 
     const q = query.toLowerCase();
-    const allData = [...mcuData, ...outrosData];
+    const allData = [...mcuData, ...outrosData, ...(customContent || [])];
     const filtered = allData.filter(item => {
       const title = (item.info?.name || item.name || item.title || '').toLowerCase();
       return title.includes(q);
