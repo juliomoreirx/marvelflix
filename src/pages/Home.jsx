@@ -12,6 +12,7 @@ import SearchOverlay from '../components/SearchOverlay/SearchOverlay';
 import Hero from '../components/Hero/Hero';
 import Row from '../components/Row/Row';
 import Skeleton from '../components/Skeleton/Skeleton';
+import Footer from '../components/Footer/Footer';
 import useUIStore from '../store/uiStore';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
@@ -381,6 +382,8 @@ const Home = () => {
           }}
         />
       )}
+
+      <Footer />
     </div>
   );
 };
