@@ -13,6 +13,7 @@
 .modal {
   width: 100%;
   max-width: 500px;
+  max-height: 85vh;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -20,7 +21,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 48px 40px;
+  padding: 32px 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.8);
   animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
@@ -43,7 +44,21 @@
 }
 
 .contentContainer {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
+  overflow-y: auto;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.contentContainer::-webkit-scrollbar {
+  width: 6px;
+}
+.contentContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.contentContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
 }
 
 .title {
@@ -131,10 +146,11 @@
 
 @media (max-width: 768px) {
   .overlay {
-    padding: 24px;
+    padding: 16px;
   }
   .modal {
-    padding: 40px 24px;
+    padding: 24px 16px;
+    max-height: 95vh;
   }
   .title {
     font-size: 24px;
