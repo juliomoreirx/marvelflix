@@ -1,5 +1,5 @@
-// O IP da sua VPS via nip.io
-const VPS_URL = 'http://143.244.171.232.nip.io';
+// URL da sua VPS (agora usando o mesmo domínio via Proxy Reverso)
+const VPS_URL = 'https://marvel.viewflix.space';
 
 // As funções de Auth agora pertencem ao Firebase (gerenciadas nos componentes)
 // Então aqui teremos apenas funções de dados e comunicação
