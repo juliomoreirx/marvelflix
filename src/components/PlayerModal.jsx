@@ -80,7 +80,6 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
     containerRef.current.appendChild(videoElement);
 
     const { id, type, ext, cfUrl, savedTime, poster } = currentPlayData;
-    const videoUrl = cfUrl;
     
     currentTimeRef.current = savedTime || 0;
     maxWatchedRef.current = 0;
@@ -153,44 +152,73 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
       }
     };
 
-    try {
-      // 1. Inicia o Plyr incondicionalmente para garantir a UI premium (vermelha)
-      initPlayer();
+    const loadVideo = async () => {
+      try {
+        // 1. Inicia o Plyr incondicionalmente para garantir a UI premium (vermelha)
+        initPlayer();
 
-      if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        videoElement.src = videoUrl;
-      } else if (Hls.isSupported()) {
-        if (hlsRef.current) hlsRef.current.destroy();
-        const hls = new Hls({ maxMaxBufferLength: 30 });
-        hls.attachMedia(videoElement);
-        hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-           hls.loadSource(videoUrl);
-        });
-        hlsRef.current = hls;
+        // 2. Segurança Maxima: Pega a chave JWT do Firebase (válida por 1h)
+        const user = auth.currentUser;
+        let token = '';
+        if (user) {
+           token = await user.getIdToken(true); // true força um token fresco se necessário
+        }
 
-        hls.on(Hls.Events.ERROR, function (event, data) {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                hls.startLoad();
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                hls.recoverMediaError();
-                break;
-              default:
-                hls.destroy();
-                videoElement.src = videoUrl; // fallback mp4
-                break;
-            }
+        // 3. Monta a URL Segura passando pelo Porteiro (Cloudflare Worker)
+        // OBS: Você precisará linkar o Worker nesse subdomínio lá na Cloudflare!
+        const r2Url = `https://assets.marvel.viewflix.space/videos/${id}/index.m3u8?token=${token}`;
+        let finalUrl = cfUrl;
+        
+        try {
+          // Fallback Inteligente: Pinga o R2
+          const res = await fetch(r2Url, { method: 'HEAD' });
+          if (res.ok) {
+            finalUrl = r2Url;
+            console.log("🎬 Reproduzindo via Cloudflare R2 (HLS Turbo)");
+          } else {
+            console.log("🎬 Reproduzindo via VPS Fallback (Ainda não migrado)");
           }
-        });
-      } else {
-        videoElement.src = videoUrl;
+        } catch (e) {
+          console.log("🎬 Reproduzindo via VPS Fallback (Erro de rede ou CORS no R2)");
+        }
+
+        if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+          videoElement.src = finalUrl;
+        } else if (Hls.isSupported()) {
+          if (hlsRef.current) hlsRef.current.destroy();
+          const hls = new Hls({ maxMaxBufferLength: 30 });
+          hls.attachMedia(videoElement);
+          hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+             hls.loadSource(finalUrl);
+          });
+          hlsRef.current = hls;
+
+          hls.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  hls.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  hls.recoverMediaError();
+                  break;
+                default:
+                  hls.destroy();
+                  videoElement.src = cfUrl; // fallback extremo pra VPS original
+                  break;
+              }
+            }
+          });
+        } else {
+          videoElement.src = finalUrl;
+        }
+      } catch (err) {
+         setDebugError('Erro fatal no player: ' + err.message);
+         videoElement.setAttribute('controls', 'true');
       }
-    } catch (err) {
-       setDebugError('Erro fatal no player: ' + err.message);
-       videoElement.setAttribute('controls', 'true');
-    }
+    };
+
+    loadVideo();
 
     return () => {
       // Força o salvamento ao fechar o player
