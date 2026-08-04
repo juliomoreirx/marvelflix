@@ -62,17 +62,61 @@ const Home = ({ userDoc }) => {
   }, [playingItem, setPlayerOpen]);
 
   useEffect(() => {
-    const hideWelcome = localStorage.getItem('marvelflix_hide_welcome');
+    const hideWelcome = localStorage.getItem('marvelflix_hide_welcome') || userDoc?.hideWelcome;
     if (!hideWelcome) {
       setShowWelcomeModal(true);
     }
-  }, []);
+  }, [userDoc]);
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const fullCatalog = [...mcuData, ...outrosFilmes, ...(customContent || [])];
+        // Mesclar catálogo base (mcuData + outrosFilmes) com overrides do Firestore (customContent)
+        let baseCatalog = [...mcuData, ...outrosFilmes];
         
+        if (customContent && customContent.length > 0) {
+          const overridesMap = {};
+          customContent.forEach(c => {
+            const id = c.info?.id || c.name || c.id;
+            overridesMap[id] = c;
+          });
+          
+          // Aplica os overrides aos itens originais
+          baseCatalog = baseCatalog.map(item => {
+            const id = item.info?.id || item.name || item.id;
+            if (overridesMap[id]) {
+              const override = overridesMap[id];
+              // Se foi deletado pelo painel
+              if (override.deleted) return { ...item, deleted: true };
+              
+              // Mescla os dados
+              return {
+                ...item,
+                ...override,
+                info: {
+                  ...item.info,
+                  ...override.info
+                },
+                category: override.category || item.category,
+                orderIndex: override.orderIndex !== undefined ? override.orderIndex : item.orderIndex
+              };
+            }
+            return item;
+          });
+          
+          // Adiciona os que NÃO estavam no catálogo base (conteúdos novos)
+          customContent.forEach(c => {
+            const id = c.info?.id || c.name || c.id;
+            const exists = baseCatalog.find(item => (item.info?.id || item.name || item.id) === id);
+            if (!exists && !c.deleted) {
+              baseCatalog.push(c);
+            }
+          });
+        }
+        
+        // Remove os deletados
+        const fullCatalog = baseCatalog.filter(item => !item.deleted);
+
         // --- Hero Items (Com Capa Horizontal / Backdrop) ---
         const itemsWithBackdrop = fullCatalog.filter(m => {
           if (!m.info || !m.info.backdrop_path || m.info.backdrop_path.length === 0) return false;
@@ -87,37 +131,27 @@ const Home = ({ userDoc }) => {
         const shuffled = itemsWithBackdrop.sort(() => 0.5 - Math.random());
         setHeroItems(shuffled.slice(0, 10));
 
-        const moviesDetail = mcuData.filter(item => item.type === 'movie' && item.info);
-        const seriesBase = mcuData.filter(item => item.type === 'series' && item.info);
-
         const m4k = [];
         const mLeg = [];
         const mStd = [];
         const mCin = [];
-        const mOutros = [...outrosFilmes];
-        const mSeries = [...seriesBase];
+        const mOutros = [];
+        const mSeries = [];
 
-        moviesDetail.forEach(m => {
-          const title = (m.info?.name || m.name || "").toLowerCase();
+        fullCatalog.forEach(m => {
           if (m.category === "Qualidade CINEMA") {
             mCin.push(m);
-          } else if (title.includes('4k') || title.includes('uhd')) {
+          } else if (m.category === "movies4k" || (m.info?.name || m.name || "").toLowerCase().includes('4k')) {
             m4k.push(m);
-          } else if (title.includes('[l]') || title.includes('legendado')) {
+          } else if (m.category === "moviesLeg" || (m.info?.name || m.name || "").toLowerCase().includes('[l]')) {
             mLeg.push(m);
+          } else if (m.category === "outros") {
+            mOutros.push(m);
+          } else if (m.type === "series" || m.category === "series") {
+            mSeries.push(m);
           } else {
             mStd.push(m);
           }
-        });
-
-        // Injeta o Custom Content
-        (customContent || []).forEach(c => {
-           if (c.category === 'movies4k') m4k.push(c);
-           else if (c.category === 'moviesLeg') mLeg.push(c);
-           else if (c.category === 'moviesStd') mStd.push(c);
-           else if (c.category === 'moviesCinema') mCin.push(c);
-           else if (c.category === 'outros') mOutros.push(c);
-           else if (c.category === 'series') mSeries.push(c);
         });
 
         setMovies4k(m4k);

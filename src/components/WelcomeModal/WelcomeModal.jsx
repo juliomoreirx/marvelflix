@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { FaPlay, FaSortNumericDown, FaCheck, FaTimes } from 'react-icons/fa';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
 import styles from './WelcomeModal.module.css';
 
 const WelcomeModal = ({ onClose }) => {
@@ -16,8 +18,13 @@ const WelcomeModal = ({ onClose }) => {
     return () => ctx.revert();
   }, []);
 
-  const handleClose = () => {
-    if (dontShowAgain) {
+  const handleClose = async () => {
+    if (dontShowAgain && auth.currentUser) {
+      localStorage.setItem('marvelflix_hide_welcome', 'true');
+      try {
+        await setDoc(doc(db, 'users', auth.currentUser.uid), { hideWelcome: true }, { merge: true });
+      } catch(e) { console.error('Erro ao salvar no Firestore', e); }
+    } else if (dontShowAgain) {
       localStorage.setItem('marvelflix_hide_welcome', 'true');
     }
     gsap.to(overlayRef.current, { opacity: 0, duration: 0.3, ease: 'power2.in' });
