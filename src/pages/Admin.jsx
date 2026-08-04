@@ -8,6 +8,8 @@ import { FaUserPlus, FaUserShield, FaBan, FaCheck, FaExclamationTriangle, FaFilm
 import ConfirmModal from '../components/ConfirmModal/ConfirmModal';
 import useUIStore from '../store/uiStore';
 import styles from './Admin.module.css';
+import mcuData from '../data/mcu_full.json';
+import outrosFilmes from '../data/outros_filmes.json';
 
 const Admin = ({ userDoc, user }) => {
   const [activeTab, setActiveTab] = useState('users'); // 'users' ou 'messages'
@@ -37,10 +39,54 @@ const Admin = ({ userDoc, user }) => {
   const [customBackdrop, setCustomBackdrop] = useState('');
   const [contentMsg, setContentMsg] = useState('');
   
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedContents, setSelectedContents] = useState([]);
   const [modalConfig, setModalConfig] = useState(null);
   
   const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
+
+  const fullCatalog = React.useMemo(() => {
+    let baseCatalog = [...mcuData, ...outrosFilmes];
+    
+    if (customContent && customContent.length > 0) {
+      const overridesMap = {};
+      customContent.forEach(c => {
+        const id = c.info?.id || c.name || c.id;
+        overridesMap[id] = c;
+      });
+      
+      baseCatalog = baseCatalog.map(item => {
+        const id = item.info?.id || item.name || item.id;
+        if (overridesMap[id]) {
+          const override = overridesMap[id];
+          return {
+            ...item,
+            ...override,
+            info: {
+              ...item.info,
+              ...override.info
+            },
+            category: override.category || item.category,
+            orderIndex: override.orderIndex !== undefined ? override.orderIndex : item.orderIndex
+          };
+        }
+        return item;
+      });
+      
+      customContent.forEach(c => {
+        const id = c.info?.id || c.name || c.id;
+        const exists = baseCatalog.find(item => (item.info?.id || item.name || item.id) === id);
+        if (!exists) {
+          baseCatalog.push(c);
+        }
+      });
+    }
+    
+    return baseCatalog.filter(c => {
+       const name = (c.info?.name || c.name || '').toLowerCase();
+       return name.includes(searchTerm.toLowerCase());
+    });
+  }, [customContent, searchTerm]);
 
   useEffect(() => {
     // Segurança da Rota
@@ -130,9 +176,16 @@ const Admin = ({ userDoc, user }) => {
   };
 
   const toggleMessageActive = async (id, currentActive) => {
-    await updateDoc(doc(db, 'global_messages', id), {
-      active: !currentActive
-    });
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, active: !currentActive } : m));
+    try {
+      await updateDoc(doc(db, 'global_messages', id), {
+        active: !currentActive
+      });
+    } catch (e) {
+      // Rollback se falhar
+      setMessages(prev => prev.map(m => m.id === id ? { ...m, active: currentActive } : m));
+      console.error(e);
+    }
   };
 
   const handleAddContent = async (e) => {
@@ -183,13 +236,22 @@ const Admin = ({ userDoc, user }) => {
     );
   };
   
-  const handleDeleteContent = (id) => {
+  const handleDeleteContent = (content) => {
+    const id = content.info?.id || content.name || content.id;
     setModalConfig({
-      title: 'Remover Conteúdo',
-      message: 'Tem certeza que deseja remover este conteúdo permanentemente?',
-      isDanger: true,
+      title: content.deleted ? 'Restaurar Conteúdo' : 'Ocultar / Remover Conteúdo',
+      message: content.deleted 
+        ? 'Tem certeza que deseja restaurar e exibir este conteúdo novamente para os usuários?' 
+        : 'Tem certeza que deseja ocultar este conteúdo globalmente do catálogo?',
+      isDanger: !content.deleted,
       onConfirm: async () => {
-        await deleteDoc(doc(db, 'custom_content', id.toString()));
+        try {
+          if (content.deleted) {
+             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: false }, { merge: true });
+          } else {
+             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
+          }
+        } catch (e) { console.error('Erro ao modificar conteúdo', e); }
         setModalConfig(null);
       },
       onCancel: () => setModalConfig(null)
@@ -204,7 +266,7 @@ const Admin = ({ userDoc, user }) => {
       isDanger: true,
       onConfirm: async () => {
         for (const id of selectedContents) {
-           await deleteDoc(doc(db, 'custom_content', id.toString()));
+           await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
         }
         setSelectedContents([]);
         setModalConfig(null);
@@ -417,44 +479,56 @@ const Admin = ({ userDoc, user }) => {
               </div>
 
               <div className={styles.card}>
-                <h2>Conteúdos Salvos ({(customContent || []).length})</h2>
+                <h2>Catálogo Unificado ({fullCatalog.length})</h2>
+                <input 
+                  type="text" 
+                  placeholder="Pesquisar filme ou série..." 
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  style={{width: '100%', padding: '10px', marginBottom: '15px', borderRadius: '4px', border: 'none', background: '#333', color: '#fff'}}
+                />
+                
                 {selectedContents.length > 0 && (
                   <button className={`${styles.statusBtn} ${styles.btnDanger}`} onClick={handleBulkDelete} style={{marginBottom: '10px', width: '100%'}}>
-                    <FaTrash /> Excluir {selectedContents.length} selecionados
+                    <FaTrash /> Ocultar {selectedContents.length} selecionados
                   </button>
                 )}
+                
                 <div className={styles.userList}>
-                  {(customContent || []).map(c => (
-                    <div key={c.info?.id || Math.random()} className={styles.userItem}>
-                      <div className={styles.userInfo} style={{flexDirection: 'row', alignItems: 'center', gap: '15px'}}>
-                        <input 
-                          type="checkbox" 
-                          checked={selectedContents.includes(c.info?.id || c.name)}
-                          onChange={() => handleSelectContent(c.info?.id || c.name)}
-                        />
-                        <img 
-                          src={c.info?.cover_big || c.info?.movie_image} 
-                          alt="Capa" 
-                          style={{width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px'}}
-                        />
-                        <div>
-                          <strong>{c.info?.name || c.name}</strong>
-                          <span>ID: {c.info?.id} | Categoria: {c.category} {c.orderIndex !== null ? `(Posição: ${c.orderIndex})` : ''}</span>
+                  {fullCatalog.map(c => {
+                    const id = c.info?.id || c.name || c.id;
+                    return (
+                      <div key={id || Math.random()} className={`${styles.userItem} ${c.deleted ? styles.msgInactive : ''}`}>
+                        <div className={styles.userInfo} style={{flexDirection: 'row', alignItems: 'center', gap: '15px'}}>
+                          <input 
+                            type="checkbox" 
+                            checked={selectedContents.includes(id)}
+                            onChange={() => handleSelectContent(id)}
+                          />
+                          <img 
+                            src={c.info?.cover_big || c.info?.movie_image} 
+                            alt="Capa" 
+                            style={{width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px', opacity: c.deleted ? 0.4 : 1}}
+                          />
+                          <div>
+                            <strong>{c.info?.name || c.name} {c.deleted ? <span style={{color:'red'}}>(DELETADO)</span> : ''}</strong>
+                            <span>ID: {c.info?.id} | Cat: {c.category} {c.orderIndex !== undefined ? `(Posição: ${c.orderIndex})` : ''}</span>
+                          </div>
+                        </div>
+                        <div className={styles.userActions}>
+                            <button 
+                              className={`${styles.statusBtn} ${c.deleted ? styles.btnSuccess : styles.btnDanger}`}
+                              onClick={() => handleDeleteContent(c)}
+                              title={c.deleted ? "Restaurar Conteúdo" : "Ocultar Conteúdo"}
+                            >
+                              {c.deleted ? <FaCheckSquare /> : <FaTrash />}
+                            </button>
                         </div>
                       </div>
-                      <div className={styles.userActions}>
-                          <button 
-                            className={`${styles.statusBtn} ${styles.btnDanger}`}
-                            onClick={() => handleDeleteContent(c.info?.id || c.name)}
-                            title="Remover Conteúdo"
-                          >
-                            <FaTrash />
-                          </button>
-                      </div>
-                    </div>
-                  ))}
-                  {(!customContent || customContent.length === 0) && (
-                    <p style={{color: '#888', textAlign: 'center'}}>Nenhum conteúdo customizado adicionado ainda.</p>
+                    );
+                  })}
+                  {fullCatalog.length === 0 && (
+                    <p style={{color: '#888', textAlign: 'center'}}>Nenhum conteúdo encontrado.</p>
                   )}
                 </div>
               </div>
