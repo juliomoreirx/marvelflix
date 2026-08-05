@@ -10,9 +10,13 @@ const DonationModal = () => {
   const { isDonationOpen, closeDonation } = useUIStore();
   const [selectedValue, setSelectedValue] = useState(10);
   const [customValue, setCustomValue] = useState('');
-  const [step, setStep] = useState(1); // 1: Select, 2: Loading, 3: QRCode
+  const [step, setStep] = useState(1); // 1: Select, 2: Loading, 3: QRCode, 4: Success
   const [copied, setCopied] = useState(false);
+  
+  // Real PIX data from Backend
+  const [paymentData, setPaymentData] = useState(null);
 
+  // Reset state on open
   useEffect(() => {
     if (isDonationOpen) {
       document.body.style.overflow = 'hidden';
@@ -20,6 +24,7 @@ const DonationModal = () => {
       setCopied(false);
       setSelectedValue(10);
       setCustomValue('');
+      setPaymentData(null);
       anime({
         targets: `.${styles.overlay}`,
         opacity: [0, 1],
@@ -38,6 +43,28 @@ const DonationModal = () => {
       document.body.style.overflow = '';
     }
   }, [isDonationOpen]);
+
+  // Polling for payment status
+  useEffect(() => {
+    let interval;
+    if (isDonationOpen && step === 3 && paymentData?.id) {
+      interval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/pix/status/${paymentData.id}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 'approved') {
+              setStep(4);
+              clearInterval(interval);
+            }
+          }
+        } catch (err) {
+          console.error("Erro ao checar status do Pix:", err);
+        }
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [isDonationOpen, step, paymentData]);
 
   if (!isDonationOpen) return null;
 
@@ -63,7 +90,7 @@ const DonationModal = () => {
     return 0;
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     const val = getCurrentValue();
     if (val < 5) {
       alert("O valor mínimo para doação é R$ 5,00. Muito obrigado pela intenção! ❤️");
@@ -71,16 +98,32 @@ const DonationModal = () => {
     }
     
     setStep(2);
-    // Fake API call
-    setTimeout(() => {
+    
+    try {
+      const res = await fetch('/api/pix/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: val })
+      });
+      
+      if (!res.ok) throw new Error('Falha ao gerar o Pix');
+      const data = await res.json();
+      
+      setPaymentData(data);
       setStep(3);
-    }, 1500);
+    } catch (err) {
+      console.error(err);
+      alert("Houve um erro ao tentar gerar o Pix. Tente novamente mais tarde.");
+      setStep(1);
+    }
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("00020126580014br.gov.bcb.pix0136marvel-flix-fake-qrcode-code5204000053039865802BR5922Julio Moreira6009Sao Paulo62070503***6304ABCD");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (paymentData?.qr_code) {
+      navigator.clipboard.writeText(paymentData.qr_code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
@@ -139,12 +182,15 @@ const DonationModal = () => {
             </div>
           )}
 
-          {step === 3 && (
+          {step === 3 && paymentData && (
             <div className={styles.step3}>
               <h3>Pronto! Leia ou Copie o Código</h3>
-              <div className={styles.qrPlaceholder}>
-                <FaQrcode />
-                <span>Simulação de QR Code MercadoPago</span>
+              <div className={styles.qrContainer} style={{ textAlign: 'center', margin: '16px 0' }}>
+                <img 
+                  src={`data:image/png;base64,${paymentData.qr_code_base64}`} 
+                  alt="QR Code Pix" 
+                  style={{ width: '200px', height: '200px', borderRadius: '8px' }} 
+                />
               </div>
               <div className={styles.totalAmount}>
                 Total: <span>R$ {getCurrentValue()},00</span>
@@ -155,8 +201,24 @@ const DonationModal = () => {
               </button>
 
               <div className={styles.footerNote}>
-                Assim que o pagamento for processado, você receberá um agradecimento! (Em breve)
+                Aguardando pagamento... Assim que processado, esta tela atualizará automaticamente! ❤️
               </div>
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className={styles.step4} style={{ textAlign: 'center', padding: '20px' }}>
+              <div style={{ color: '#4caf50', fontSize: '3rem', marginBottom: '10px' }}>
+                <FaCheckCircle />
+              </div>
+              <h3 style={{ marginBottom: '10px' }}>Pagamento Confirmado!</h3>
+              <p style={{ color: 'var(--text-lo)', lineHeight: '1.5' }}>
+                Muito obrigado pelo seu apoio!<br/>
+                Sua doação ajuda imensamente a manter o MarvelFlix online e rápido para todos os fãs.
+              </p>
+              <button className={styles.actionBtn} onClick={handleClose} style={{ marginTop: '20px' }}>
+                Voltar para o Catálogo
+              </button>
             </div>
           )}
         </div>
