@@ -242,10 +242,10 @@ const Admin = ({ userDoc, user }) => {
       onConfirm: async () => {
         try {
           if (content.deleted) {
-             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: false }, { merge: true });
+             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: false, id: id }, { merge: true });
              setContentMsg(`✅ Conteúdo '${id}' restaurado com sucesso!`);
           } else {
-             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
+             await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true, id: id }, { merge: true });
              setContentMsg(`✅ Conteúdo '${id}' ocultado com sucesso!`);
           }
         } catch (e) { 
@@ -267,7 +267,7 @@ const Admin = ({ userDoc, user }) => {
       isDanger: true,
       onConfirm: async () => {
         for (const id of selectedContents) {
-           await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
+           await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true, id: id }, { merge: true });
         }
         setContentMsg(`✅ ${selectedContents.length} conteúdos ocultados com sucesso!`);
         setSelectedContents([]);
