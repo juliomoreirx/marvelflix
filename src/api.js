@@ -16,7 +16,7 @@ export const getSeriesInfo = async (series_id) => {
 
 export const getProxyImageUrl = (url) => {
   if (!url) return '';
-  // Se já for da tmdb, pode deixar passar direto se quiser, ou mandar tudo pro proxy
-  return `${VPS_URL}/api/image?url=${encodeURIComponent(url)}`;
+  // Como as imagens agora estão no R2 ou em fontes com CORS liberado,
+  // não precisamos mais passar pelo proxy da VPS.
+  return url;
 };
-
