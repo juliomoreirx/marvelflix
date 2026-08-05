@@ -314,34 +314,9 @@ const Home = ({ userDoc }) => {
   };
 
   const handlePlayRequest = async (playData) => {
-    const type = playData.type || (playData.episode_id ? 'series' : 'movie');
-    const ext = playData.ext || 'mp4';
-    
-    // Geração de token JWT pela VPS para proteger o stream
-    try {
-      const tokenRes = await fetch(`${VPS_URL}/api/token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid: auth.currentUser?.uid || 'guest' })
-      });
-      
-      if (!tokenRes.ok) {
-        throw new Error('Falha ao gerar Token de Stream');
-      }
-      
-      const { token } = await tokenRes.json();
-      
-      // Abre o player imediatamente com o link mascarado da VPS!
-      setPlayingItem({
-        ...playData,
-        cfUrl: `${VPS_URL}/stream?id=${playData.id}&type=${type}&ext=${ext}&token=${token}`
-      });
-      
-      setSelectedItem(null);
-      
-    } catch (e) {
-      console.error('Stream error:', e);
-    }
+    // Agora o PlayerModal se encarrega de pedir o token seguro e falar com a Cloudflare.
+    setPlayingItem(playData);
+    setSelectedItem(null);
   };
 
   const handleContinuePlay = (item) => {

@@ -1,8 +1,4 @@
-import { jwtVerify, createRemoteJWKSet } from 'jose';
-
-// Chaves Públicas Oficiais do Google (Firebase)
-const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com'));
-const PROJECT_ID = 'marvelflix-space';
+import { jwtVerify } from 'jose';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,7 +17,7 @@ export default {
     const objectKey = url.pathname.slice(1); 
     const token = url.searchParams.get('token');
 
-    // 2. Exceção de Segurança: Libera o acesso IMEDIATO sem token se for apenas uma IMAGEM (capas/posters)
+    // 2. Exceção de Segurança: Libera o acesso IMEDIATO sem token se for apenas uma IMAGEM
     const isImage = /\.(jpg|jpeg|png|webp|gif)$/i.test(objectKey);
 
     if (!isImage) {
@@ -30,12 +26,16 @@ export default {
           return new Response('🚨 Acesso Negado: Você não forneceu a chave de acesso.', { status: 401, headers: corsHeaders });
         }
 
-        // 4. Verifica a assinatura criptográfica e a validade (se não expirou) do token direto com a Google
+        // 4. Verifica a assinatura usando a chave secreta da VPS e cruza o IP
         try {
-          await jwtVerify(token, JWKS, {
-            issuer: `https://securetoken.google.com/${PROJECT_ID}`,
-            audience: PROJECT_ID,
-          });
+          const secretKey = new TextEncoder().encode(env.JWT_SECRET);
+          const { payload } = await jwtVerify(token, secretKey);
+          
+          // Anti-Leech (IP Binding): Bloqueia se o IP original não for o mesmo que gerou o token
+          const clientIp = request.headers.get('cf-connecting-ip');
+          if (payload.ip && clientIp && payload.ip !== clientIp) {
+              return new Response('🚨 Acesso Negado: Vínculo de IP quebrado (Token copiado de outra rede).', { status: 403, headers: corsHeaders });
+          }
         } catch (e) {
           return new Response('🚨 Acesso Negado: Chave de Acesso Expirada ou Falsificada.', { status: 403, headers: corsHeaders });
         }

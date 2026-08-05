@@ -154,33 +154,26 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
 
     const loadVideo = async () => {
       try {
-        // 1. Inicia o Plyr incondicionalmente para garantir a UI premium (vermelha)
+        // 1. Inicia o Plyr incondicionalmente para garantir a UI premium
         initPlayer();
 
-        // 2. Segurança Maxima: Pega a chave JWT do Firebase (válida por 1h)
+        // 2. Solicita Token de Curta Duração da VPS (IP Bound)
         const user = auth.currentUser;
-        let token = '';
-        if (user) {
-           token = await user.getIdToken(true); // true força um token fresco se necessário
-        }
+        if (!user) throw new Error("Usuário não autenticado");
+
+        const VPS_URL = import.meta.env.VITE_API_URL || 'https://marvel.viewflix.space';
+        const tokenRes = await fetch(`${VPS_URL}/api/token`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ uid: user.uid })
+        });
+        
+        if (!tokenRes.ok) throw new Error("Acesso Negado: Falha na licença");
+        const { token } = await tokenRes.json();
 
         // 3. Monta a URL Segura passando pelo Porteiro (Cloudflare Worker)
-        // OBS: Você precisará linkar o Worker nesse subdomínio lá na Cloudflare!
-        const r2Url = `https://assets.marvel.viewflix.space/videos/${id}/index.m3u8?token=${token}`;
-        let finalUrl = cfUrl;
-        
-        try {
-          // Fallback Inteligente: Pinga o R2
-          const res = await fetch(r2Url, { method: 'HEAD' });
-          if (res.ok) {
-            finalUrl = r2Url;
-            console.log("🎬 Reproduzindo via Cloudflare R2 (HLS Turbo)");
-          } else {
-            console.log("🎬 Reproduzindo via VPS Fallback (Ainda não migrado)");
-          }
-        } catch (e) {
-          console.log("🎬 Reproduzindo via VPS Fallback (Erro de rede ou CORS no R2)");
-        }
+        const finalUrl = `https://assets.marvel.viewflix.space/videos/${id}/index.m3u8?token=${token}`;
+        console.log("🎬 Reproduzindo via Cloudflare R2 (HLS Turbo Seguro)");
 
         if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
           videoElement.src = finalUrl;
@@ -204,7 +197,7 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
                   break;
                 default:
                   hls.destroy();
-                  videoElement.src = cfUrl; // fallback extremo pra VPS original
+                  setDebugError('Erro fatal no stream da Cloudflare. ' + (data.details || ''));
                   break;
               }
             }
@@ -213,7 +206,7 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
           videoElement.src = finalUrl;
         }
       } catch (err) {
-         setDebugError('Erro fatal no player: ' + err.message);
+         setDebugError(err.message);
          videoElement.setAttribute('controls', 'true');
       }
     };
