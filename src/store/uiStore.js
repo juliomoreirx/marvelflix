@@ -11,6 +11,9 @@ const useUIStore = create((set) => ({
   toggleChronologicalMode: () => set((state) => ({ isChronologicalMode: !state.isChronologicalMode })),
   isPlayerOpen: false,
   setPlayerOpen: (isOpen) => set({ isPlayerOpen: isOpen }),
+  isDonationOpen: false,
+  openDonation: () => set({ isDonationOpen: true }),
+  closeDonation: () => set({ isDonationOpen: false }),
   customContent: [],
   setCustomContent: (data) => set({ customContent: data }),
 }));

@@ -5,12 +5,13 @@ import anime from 'animejs';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import useUIStore from '../../store/uiStore';
+import CTAButton from '../CTAButton/CTAButton';
 import styles from './MobileNav.module.css';
 
 gsap.registerPlugin(ScrollToPlugin);
 
 const MobileNav = () => {
-  const { isMobileMenuOpen, closeMobileMenu, isChronologicalMode, toggleChronologicalMode } = useUIStore();
+  const { isMobileMenuOpen, closeMobileMenu, isChronologicalMode, toggleChronologicalMode, openDonation } = useUIStore();
   const overlayRef = useRef(null);
   const menuItemsRef = useRef([]);
 
@@ -130,10 +131,19 @@ const MobileNav = () => {
           Séries
         </Link>
 
+        <CTAButton 
+          className={styles.donateBtnMobile} 
+          onClick={() => {
+            closeMobileMenu();
+            openDonation();
+          }}
+          ref={el => menuItemsRef.current[3] = el}
+        />
+
         <div 
           className={styles.toggleWrapper} 
           onClick={toggleChronologicalMode} 
-          ref={el => menuItemsRef.current[3] = el}
+          ref={el => menuItemsRef.current[4] = el}
         >
           <span className={styles.toggleLabel}>Modo Cronológico</span>
           <div className={`${styles.toggleSwitch} ${isChronologicalMode ? styles.active : ''}`}>

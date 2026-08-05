@@ -6,6 +6,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import useUIStore from '../../store/uiStore';
 import { useNotification } from '../../context/NotificationContext';
 import appLogo from '../../assets/logo.svg';
+import CTAButton from '../CTAButton/CTAButton';
 import styles from './Header.module.css';
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -15,7 +16,8 @@ const Header = ({ user, userDoc, onLogout }) => {
     toggleMobileMenu, 
     toggleSearch, 
     isChronologicalMode, 
-    toggleChronologicalMode 
+    toggleChronologicalMode,
+    openDonation
   } = useUIStore();
   const { notifications, markAllAsRead } = useNotification();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,6 +86,8 @@ const Header = ({ user, userDoc, onLogout }) => {
         </div>
 
         <div className={styles.right}>
+          <CTAButton onClick={openDonation} className={styles.donateBtn} />
+
           <div className={styles.toggleWrapper} onClick={toggleChronologicalMode} title="Modo Cronológico">
             <span className={styles.toggleLabel}>Cronológico</span>
             <div className={`${styles.toggleSwitch} ${isChronologicalMode ? styles.active : ''}`}>
