@@ -65,14 +65,45 @@ const SearchOverlay = ({ onCardClick }) => {
     }
 
     const q = query.toLowerCase();
-    const allData = [...mcuData, ...outrosData, ...(customContent || [])];
-    const filtered = allData.filter(item => {
+
+    // 1. Criar mapa de overrides
+    const overridesMap = {};
+    (customContent || []).forEach(c => {
+      const id = c.info?.id || c.name || c.id;
+      if (id) overridesMap[id] = c;
+    });
+
+    // 2. Mesclar catálogo base
+    let baseCatalog = [...mcuData, ...outrosData].map(item => {
+      const id = item.info?.id || item.name || item.id;
+      if (id && overridesMap[id]) {
+        const override = overridesMap[id];
+        return {
+          ...item,
+          ...override,
+          info: { ...item.info, ...override.info }
+        };
+      }
+      return item;
+    });
+
+    // 3. Adicionar itens novos
+    (customContent || []).forEach(c => {
+      const id = c.info?.id || c.name || c.id;
+      const exists = baseCatalog.find(item => (item.info?.id || item.name || item.id) === id);
+      if (!exists) baseCatalog.push(c);
+    });
+
+    // 4. Filtrar deletados e buscar
+    const fullCatalog = baseCatalog.filter(item => !item.deleted);
+
+    const filtered = fullCatalog.filter(item => {
       const title = (item.info?.name || item.name || item.title || '').toLowerCase();
       return title.includes(q);
     });
 
     setResults(filtered);
-  }, [query]);
+  }, [query, customContent]);
 
   // Animação Stagger dos resultados toda vez que mudam
   useEffect(() => {
