@@ -5,6 +5,7 @@ import anime from 'animejs';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import useUIStore from '../../store/uiStore';
+import CTAButton from '../CTAButton/CTAButton';
 import styles from './MobileNav.module.css';
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -130,16 +131,14 @@ const MobileNav = () => {
           Séries
         </Link>
 
-        <button 
+        <CTAButton 
           className={styles.donateBtnMobile} 
           onClick={() => {
             closeMobileMenu();
             openDonation();
           }}
           ref={el => menuItemsRef.current[3] = el}
-        >
-          ❤️ Apoiar Projeto
-        </button>
+        />
 
         <div 
           className={styles.toggleWrapper} 

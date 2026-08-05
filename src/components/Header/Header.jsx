@@ -6,6 +6,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import useUIStore from '../../store/uiStore';
 import { useNotification } from '../../context/NotificationContext';
 import appLogo from '../../assets/logo.svg';
+import CTAButton from '../CTAButton/CTAButton';
 import styles from './Header.module.css';
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -85,9 +86,7 @@ const Header = ({ user, userDoc, onLogout }) => {
         </div>
 
         <div className={styles.right}>
-          <button className={styles.donateBtn} onClick={openDonation} title="Apoiar o Projeto">
-            ❤️ Apoiar
-          </button>
+          <CTAButton onClick={openDonation} className={styles.donateBtn} />
 
           <div className={styles.toggleWrapper} onClick={toggleChronologicalMode} title="Modo Cronológico">
             <span className={styles.toggleLabel}>Cronológico</span>
