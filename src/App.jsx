@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import GlobalMessageModal from './components/GlobalMessageModal/GlobalMessageModal';
+import DonationModal from './components/DonationModal/DonationModal';
 
 import useUIStore from './store/uiStore';
 
@@ -87,6 +88,7 @@ const App = () => {
   return (
     <Router>
       {user && <GlobalMessageModal />}
+      <DonationModal />
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/home" replace /> : <Login />} />
         <Route path="/home" element={user ? <Home userDoc={userDoc} /> : <Navigate to="/login" replace />} />

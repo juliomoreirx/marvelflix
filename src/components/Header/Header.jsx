@@ -15,7 +15,8 @@ const Header = ({ user, userDoc, onLogout }) => {
     toggleMobileMenu, 
     toggleSearch, 
     isChronologicalMode, 
-    toggleChronologicalMode 
+    toggleChronologicalMode,
+    openDonation
   } = useUIStore();
   const { notifications, markAllAsRead } = useNotification();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,6 +85,10 @@ const Header = ({ user, userDoc, onLogout }) => {
         </div>
 
         <div className={styles.right}>
+          <button className={styles.donateBtn} onClick={openDonation} title="Apoiar o Projeto">
+            ❤️ Apoiar
+          </button>
+
           <div className={styles.toggleWrapper} onClick={toggleChronologicalMode} title="Modo Cronológico">
             <span className={styles.toggleLabel}>Cronológico</span>
             <div className={`${styles.toggleSwitch} ${isChronologicalMode ? styles.active : ''}`}>
