@@ -211,14 +211,16 @@ const DonationModal = () => {
               <div style={{ color: '#4caf50', fontSize: '3rem', marginBottom: '10px' }}>
                 <FaCheckCircle />
               </div>
-              <h3 style={{ marginBottom: '10px' }}>Pagamento Confirmado!</h3>
+              <h3 style={{ marginBottom: '10px' }}>Doação de R$ {getCurrentValue()},00 Confirmada!</h3>
               <p style={{ color: 'var(--text-lo)', lineHeight: '1.5' }}>
                 Muito obrigado pelo seu apoio!<br/>
                 Sua doação ajuda imensamente a manter o MarvelFlix online e rápido para todos os fãs.
               </p>
-              <button className={styles.actionBtn} onClick={handleClose} style={{ marginTop: '20px' }}>
-                Voltar para o Catálogo
-              </button>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                <button className={styles.actionBtn} onClick={handleClose}>
+                  Voltar para o Catálogo
+                </button>
+              </div>
             </div>
           )}
         </div>
