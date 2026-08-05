@@ -32,8 +32,9 @@ export default {
           const { payload } = await jwtVerify(token, secretKey);
           
           // Anti-Leech (IP Binding): Bloqueia se o IP original não for o mesmo que gerou o token
+          // BYPASS TEMPORÁRIO: Se o Nginx falhar em mandar o IP e gravar '127.0.0.1', nós permitimos para não quebrar o site.
           const clientIp = request.headers.get('cf-connecting-ip');
-          if (payload.ip && clientIp && payload.ip !== clientIp) {
+          if (payload.ip && clientIp && payload.ip !== clientIp && payload.ip !== '127.0.0.1' && payload.ip !== '::ffff:127.0.0.1') {
               return new Response('🚨 Acesso Negado: Vínculo de IP quebrado (Token copiado de outra rede).', { status: 403, headers: corsHeaders });
           }
         } catch (e) {
