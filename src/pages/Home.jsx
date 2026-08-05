@@ -228,11 +228,11 @@ const Home = ({ userDoc }) => {
           return candidates[0];
         };
 
-        const e1 = list1.map(t => matchItem(t, mcuData)).filter(Boolean);
-        const e2 = list2.map(t => matchItem(t, mcuData)).filter(Boolean);
-        const e3 = list3.map(t => matchItem(t, mcuData)).filter(Boolean);
+        const e1 = list1.map(t => matchItem(t, fullCatalog)).filter(Boolean);
+        const e2 = list2.map(t => matchItem(t, fullCatalog)).filter(Boolean);
+        const e3 = list3.map(t => matchItem(t, fullCatalog)).filter(Boolean);
 
-        (customContent || []).forEach(c => {
+        (customContent || []).filter(c => !c.deleted).forEach(c => {
            const order = c.orderIndex !== undefined && c.orderIndex !== null ? parseInt(c.orderIndex, 10) : -1;
            if (c.category === 'era1') {
              if (order >= 0 && order <= e1.length) e1.splice(order, 0, c);
