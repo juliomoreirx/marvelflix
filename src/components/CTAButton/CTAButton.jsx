@@ -1,11 +1,12 @@
 import React, { forwardRef } from 'react';
+import { FaHeart } from 'react-icons/fa';
 import styles from './CTAButton.module.css';
 
 const CTAButton = forwardRef(({ onClick, className }, ref) => {
   return (
     <button ref={ref} className={`${styles.ctaBtn} ${className || ''}`} onClick={onClick} title="Apoiar o Projeto">
       <div className={styles.glowEffect}></div>
-      <span className={styles.icon}>❤️</span>
+      <span className={styles.icon}><FaHeart /></span>
       <span className={styles.text}>
         <span className={styles.letter} style={{'--i': 1}}>A</span>
         <span className={styles.letter} style={{'--i': 2}}>p</span>
