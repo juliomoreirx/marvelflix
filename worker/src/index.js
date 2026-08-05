@@ -33,12 +33,14 @@ export default {
           
           // Anti-Leech (IP Binding): Bloqueia se o IP original não for o mesmo que gerou o token
           // BYPASS TEMPORÁRIO: Se o Nginx falhar em mandar o IP e gravar '127.0.0.1', nós permitimos para não quebrar o site.
+          // Anti-Leech (IP Binding)
           const clientIp = request.headers.get('cf-connecting-ip');
           if (payload.ip && clientIp && payload.ip !== clientIp && payload.ip !== '127.0.0.1' && payload.ip !== '::ffff:127.0.0.1') {
-              return new Response('🚨 Acesso Negado: Vínculo de IP quebrado (Token copiado de outra rede).', { status: 403, headers: corsHeaders });
+              return new Response(`🚨 Acesso Negado: Vínculo de IP quebrado (Token: ${payload.ip} | Client: ${clientIp}).`, { status: 403, headers: corsHeaders });
           }
         } catch (e) {
-          return new Response('🚨 Acesso Negado: Chave de Acesso Expirada ou Falsificada.', { status: 403, headers: corsHeaders });
+          // DEBUGGING TOTAL: Vamos imprimir na tela exatamente o que deu errado!
+          return new Response(`🚨 Acesso Negado (DEBUG): ${e.message || e}`, { status: 403, headers: corsHeaders });
         }
     }
     
