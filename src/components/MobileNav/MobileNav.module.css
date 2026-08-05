@@ -1,4 +1,4 @@
-.overlay {
+﻿.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -38,7 +38,7 @@
   font-size: 32px;
   font-weight: 700;
   color: var(--text-hi);
-  opacity: 0; /* Começa invisível para animação do anime.js */
+  opacity: 0; /* ComeÃ§a invisÃ­vel para animaÃ§Ã£o do anime.js */
   transition: color var(--transition-fast);
 }
 
@@ -99,3 +99,6 @@
 .toggleSwitch.active .toggleKnob {
   transform: translateX(24px);
 }
+
+.donateBtnMobile { background: linear-gradient(45deg, #e50914, #ff5e62); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; width: 100%; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3); }
+.donateBtnMobile:hover { transform: scale(1.02); }

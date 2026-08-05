@@ -10,7 +10,7 @@ import styles from './MobileNav.module.css';
 gsap.registerPlugin(ScrollToPlugin);
 
 const MobileNav = () => {
-  const { isMobileMenuOpen, closeMobileMenu, isChronologicalMode, toggleChronologicalMode } = useUIStore();
+  const { isMobileMenuOpen, closeMobileMenu, isChronologicalMode, toggleChronologicalMode, openDonation } = useUIStore();
   const overlayRef = useRef(null);
   const menuItemsRef = useRef([]);
 
@@ -130,10 +130,21 @@ const MobileNav = () => {
           Séries
         </Link>
 
+        <button 
+          className={styles.donateBtnMobile} 
+          onClick={() => {
+            closeMobileMenu();
+            openDonation();
+          }}
+          ref={el => menuItemsRef.current[3] = el}
+        >
+          ❤️ Apoiar Projeto
+        </button>
+
         <div 
           className={styles.toggleWrapper} 
           onClick={toggleChronologicalMode} 
-          ref={el => menuItemsRef.current[3] = el}
+          ref={el => menuItemsRef.current[4] = el}
         >
           <span className={styles.toggleLabel}>Modo Cronológico</span>
           <div className={`${styles.toggleSwitch} ${isChronologicalMode ? styles.active : ''}`}>

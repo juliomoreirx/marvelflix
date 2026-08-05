@@ -95,7 +95,7 @@ const DonationModal = () => {
           <h2>Apoie o Projeto</h2>
           <p>
             O MarvelFlix é mantido com carinho para a comunidade. 
-            Os servidores e a CDN Cloudflare têm custos mensais. 
+            Os servidores têm custos mensais. 
             Se você curte a plataforma, considere apoiar para mantê-la viva e rápida!
           </p>
         </div>
