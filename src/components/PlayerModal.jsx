@@ -173,7 +173,6 @@ const PlayerModal = ({ playData, onClose, onNextEpisode }) => {
 
         // 3. Monta a URL Segura passando pelo Porteiro (Cloudflare Worker)
         const finalUrl = `https://assets.marvel.viewflix.space/videos/${id}/index.m3u8?token=${token}`;
-        console.log("🎬 Reproduzindo via Cloudflare R2 (HLS Turbo Seguro)");
 
         if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
           videoElement.src = finalUrl;

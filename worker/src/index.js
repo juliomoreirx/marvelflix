@@ -31,13 +31,9 @@ export default {
           const secretKey = new TextEncoder().encode(env.JWT_SECRET);
           const { payload } = await jwtVerify(token, secretKey);
           
-          // Anti-Leech (IP Binding): Bloqueia se o IP original não for o mesmo que gerou o token
-          // BYPASS TEMPORÁRIO: Se o Nginx falhar em mandar o IP e gravar '127.0.0.1', nós permitimos para não quebrar o site.
-          // Anti-Leech (IP Binding)
-          const clientIp = request.headers.get('cf-connecting-ip');
-          if (payload.ip && clientIp && payload.ip !== clientIp && payload.ip !== '127.0.0.1' && payload.ip !== '::ffff:127.0.0.1') {
-              return new Response(`🚨 Acesso Negado: Vínculo de IP quebrado (Token: ${payload.ip} | Client: ${clientIp}).`, { status: 403, headers: corsHeaders });
-          }
+          // Assinatura JWT verificada com sucesso!
+          // A checagem de IP restrita foi removida para garantir suporte perfeito a Dual-Stack (IPv4/IPv6) e Redes Móveis 4G.
+          // O tempo de expiração do Token (4 horas) e a criptografia JWT continuam blindando o acesso.
         } catch (e) {
           // DEBUGGING TOTAL: Vamos imprimir na tela exatamente o que deu errado!
           return new Response(`🚨 Acesso Negado (DEBUG): ${e.message || e}`, { status: 403, headers: corsHeaders });
