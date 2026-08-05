@@ -175,15 +175,10 @@ const Admin = ({ userDoc, user }) => {
     }
   };
 
-  const toggleMessageActive = async (id, currentActive) => {
-    setMessages(prev => prev.map(m => m.id === id ? { ...m, active: !currentActive } : m));
+  const handleDeleteMessage = async (id) => {
     try {
-      await updateDoc(doc(db, 'global_messages', id), {
-        active: !currentActive
-      });
+      await deleteDoc(doc(db, 'global_messages', id));
     } catch (e) {
-      // Rollback se falhar
-      setMessages(prev => prev.map(m => m.id === id ? { ...m, active: currentActive } : m));
       console.error(e);
     }
   };
@@ -242,17 +237,23 @@ const Admin = ({ userDoc, user }) => {
       title: content.deleted ? 'Restaurar Conteúdo' : 'Ocultar / Remover Conteúdo',
       message: content.deleted 
         ? 'Tem certeza que deseja restaurar e exibir este conteúdo novamente para os usuários?' 
-        : 'Tem certeza que deseja ocultar este conteúdo globalmente do catálogo?',
+        : 'Tem certeza que deseja ocultar este conteúdo globalmente do catálogo? (Isto não apaga do Cloudflare R2)',
       isDanger: !content.deleted,
       onConfirm: async () => {
         try {
           if (content.deleted) {
              await setDoc(doc(db, 'custom_content', id.toString()), { deleted: false }, { merge: true });
+             setContentMsg(`✅ Conteúdo '${id}' restaurado com sucesso!`);
           } else {
              await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
+             setContentMsg(`✅ Conteúdo '${id}' ocultado com sucesso!`);
           }
-        } catch (e) { console.error('Erro ao modificar conteúdo', e); }
+        } catch (e) { 
+          console.error('Erro ao modificar conteúdo', e); 
+          setContentMsg(`Erro: ${e.message}`);
+        }
         setModalConfig(null);
+        setTimeout(() => setContentMsg(''), 4000);
       },
       onCancel: () => setModalConfig(null)
     });
@@ -262,14 +263,16 @@ const Admin = ({ userDoc, user }) => {
     if (selectedContents.length === 0) return;
     setModalConfig({
       title: 'Excluir Selecionados',
-      message: `Tem certeza que deseja apagar ${selectedContents.length} conteúdos?`,
+      message: `Tem certeza que deseja ocultar ${selectedContents.length} conteúdos? (Isto não apaga do Cloudflare R2)`,
       isDanger: true,
       onConfirm: async () => {
         for (const id of selectedContents) {
            await setDoc(doc(db, 'custom_content', id.toString()), { deleted: true }, { merge: true });
         }
+        setContentMsg(`✅ ${selectedContents.length} conteúdos ocultados com sucesso!`);
         setSelectedContents([]);
         setModalConfig(null);
+        setTimeout(() => setContentMsg(''), 4000);
       },
       onCancel: () => setModalConfig(null)
     });
@@ -394,21 +397,24 @@ const Admin = ({ userDoc, user }) => {
               </div>
 
               <div className={styles.card}>
-                <h2>Avisos Criados</h2>
+                <h2>Histórico de Avisos (Lidos 1 vez por usuário)</h2>
                 <div className={styles.userList}>
                   {messages.map(m => (
-                    <div key={m.id} className={`${styles.userItem} ${m.active ? styles.msgActive : styles.msgInactive}`}>
+                    <div key={m.id} className={styles.userItem}>
                       <div className={styles.userInfo}>
-                        <strong>{m.title}</strong>
-                        <span>Alvo: {m.target === 'all' ? 'LIVE' : 'DEV'} | Cor: {m.type}</span>
-                        <span>{new Date(m.createdAt).toLocaleString('pt-BR')}</span>
+                        <div>
+                          <strong>{m.title}</strong>
+                          <span style={{opacity: 0.8}}>{m.message}</span>
+                          <span style={{fontSize: '0.8rem', color: '#888'}}>Alvo: {m.target} | Tipo: {m.type}</span>
+                        </div>
                       </div>
                       <div className={styles.userActions}>
                           <button 
-                            className={`${styles.statusBtn} ${m.active ? styles.btnDanger : styles.btnSuccess}`}
-                            onClick={() => toggleMessageActive(m.id, m.active)}
+                            className={`${styles.statusBtn} ${styles.btnDanger}`}
+                            onClick={() => handleDeleteMessage(m.id)}
+                            title="Apagar Aviso do Histórico"
                           >
-                            {m.active ? 'Desativar' : 'Ativar'}
+                            <FaTrash />
                           </button>
                       </div>
                     </div>
@@ -506,9 +512,10 @@ const Admin = ({ userDoc, user }) => {
                             onChange={() => handleSelectContent(id)}
                           />
                           <img 
-                            src={c.info?.cover_big || c.info?.movie_image} 
+                            src={c.info?.cover_big || c.info?.movie_image || '/marvelflix_logo.png'} 
                             alt="Capa" 
-                            style={{width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px', opacity: c.deleted ? 0.4 : 1}}
+                            style={{width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px', opacity: c.deleted ? 0.4 : 1, background: '#111'}}
+                            onError={(e) => { e.target.src = '/marvelflix_logo.png'; }}
                           />
                           <div>
                             <strong>{c.info?.name || c.name} {c.deleted ? <span style={{color:'red'}}>(DELETADO)</span> : ''}</strong>

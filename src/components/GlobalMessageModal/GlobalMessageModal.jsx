@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { collection, onSnapshot, query, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
 import useUIStore from '../../store/uiStore';
 import { FaInfoCircle, FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from 'react-icons/fa';
 import styles from './GlobalMessageModal.module.css';
@@ -9,26 +9,38 @@ const GlobalMessageModal = () => {
   const [messages, setMessages] = useState([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const { isPlayerOpen } = useUIStore();
+  const [userDocData, setUserDocData] = useState(null);
 
   useEffect(() => {
-    // Escutar mensagens ativas
-    const q = query(collection(db, 'global_messages'), where('active', '==', true));
+    if (!auth.currentUser) return;
     
-    const unsubscribe = onSnapshot(q, (snap) => {
-      const activeMsgs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Escutar os dados do usuario (para pegar array de lidos)
+    const unsubscribeUser = onSnapshot(doc(db, 'users', auth.currentUser.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setUserDocData(docSnap.data());
+      }
+    });
+
+    return () => unsubscribeUser();
+  }, []);
+
+  useEffect(() => {
+    if (!userDocData) return;
+
+    // Escutar TODAS as mensagens ativas/criadas
+    const q = query(collection(db, 'global_messages'));
+    
+    const unsubscribeMsgs = onSnapshot(q, (snap) => {
+      const allMsgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       
-      // Filtrar mensagens já lidas
-      const readMessages = JSON.parse(localStorage.getItem('marvel_read_messages') || '[]');
-      
+      const readMessages = userDocData.readAnnouncements || [];
       const isDevEnv = window.location.hostname.includes('dev') || window.location.hostname === 'localhost';
 
-      const unreadMsgs = activeMsgs.filter(m => {
-        // Ignora se ja foi lido
+      const unreadMsgs = allMsgs.filter(m => {
+        // Ignora se ja foi lido pelo usuario no BD
         if (readMessages.includes(m.id)) return false;
-        
         // Regra de alvo
         if (m.target === 'dev' && !isDevEnv) return false;
-
         return true;
       });
 
@@ -38,18 +50,23 @@ const GlobalMessageModal = () => {
       setCurrentMessageIndex(0);
     });
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribeMsgs();
+  }, [userDocData]);
 
   if (messages.length === 0 || isPlayerOpen) return null;
 
   const currentMsg = messages[currentMessageIndex];
 
-  const handleMarkAsRead = () => {
-    const readMessages = JSON.parse(localStorage.getItem('marvel_read_messages') || '[]');
-    if (!readMessages.includes(currentMsg.id)) {
-      readMessages.push(currentMsg.id);
-      localStorage.setItem('marvel_read_messages', JSON.stringify(readMessages));
+  const handleMarkAsRead = async () => {
+    try {
+      if (auth.currentUser) {
+        // Salva direto no Firestore!
+        await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+          readAnnouncements: arrayUnion(currentMsg.id)
+        });
+      }
+    } catch (e) {
+      console.error('Erro ao marcar como lida:', e);
     }
 
     if (currentMessageIndex < messages.length - 1) {

@@ -90,16 +90,7 @@ const Login = () => {
           {isBlocked ? (
             <div style={{textAlign: 'center', marginTop: '2rem'}}>
               <h2 style={{color: '#e50914', marginBottom: '1rem'}}>ACESSO REVOGADO</h2>
-              <p style={{color: '#fff', marginBottom: '2rem'}}>Seu acesso a esta plataforma foi bloqueado pelo administrador.</p>
-              <button 
-                className={styles.submitBtn} 
-                onClick={() => {
-                  localStorage.removeItem('marvel_blocked');
-                  setIsBlocked(false);
-                }}
-              >
-                <span className={styles.btnText}>OK</span>
-              </button>
+              <p style={{color: '#fff', marginBottom: '2rem'}}>Seu acesso a esta plataforma foi bloqueado de forma permanente pelo administrador. Entre em contato com o suporte para mais informações.</p>
             </div>
           ) : (
             <form onSubmit={handleAuth} className={styles.form}>
