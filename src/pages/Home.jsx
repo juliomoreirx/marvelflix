@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import mcuData from '../data/mcu_full.json';
 import outrosFilmes from '../data/outros_filmes.json';
 import { getProxyImageUrl } from '../api';
-import posterPlaceholder from '../assets/poster_placeholder.jpg';
+import posterPlaceholder from '../assets/poster_placeholder.webp';
 import appLogo from '../assets/logo.svg';
 import Modal from '../components/Modal';
 import PlayerModal from '../components/PlayerModal';
