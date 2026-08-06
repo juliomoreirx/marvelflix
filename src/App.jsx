@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, collection, onSnapshot, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -90,18 +91,20 @@ const App = () => {
   if (loading) return <FullLoader />;
 
   return (
-    <Router>
-      {user && <GlobalMessageModal />}
-      <DonationModal />
-      <Suspense fallback={<FullLoader />}>
-        <Routes>
-          <Route path="/login" element={user ? <Navigate to="/home" replace /> : <Login />} />
-          <Route path="/home" element={user ? <Home userDoc={userDoc} /> : <Navigate to="/login" replace />} />
-          <Route path="/admin" element={user ? <Admin user={user} userDoc={userDoc} /> : <Navigate to="/login" replace />} />
-          <Route path="*" element={<Navigate to={user ? "/home" : "/login"} replace />} />
-        </Routes>
-      </Suspense>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        {user && <GlobalMessageModal />}
+        <DonationModal />
+        <Suspense fallback={<FullLoader />}>
+          <Routes>
+            <Route path="/login" element={user ? <Navigate to="/home" replace /> : <Login />} />
+            <Route path="/home" element={user ? <Home userDoc={userDoc} /> : <Navigate to="/login" replace />} />
+            <Route path="/admin" element={user ? <Admin user={user} userDoc={userDoc} /> : <Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to={user ? "/home" : "/login"} replace />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </HelmetProvider>
   );
 };
 
