@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPlay, FaTimes, FaSpinner } from 'react-icons/fa';
 import gsap from 'gsap';
-import posterPlaceholder from '../assets/poster_placeholder.jpg';
-import episodePlaceholder from '../assets/episode_placeholder.jpg';
+import posterPlaceholder from '../assets/poster_placeholder.webp';
+import episodePlaceholder from '../assets/episode_placeholder.webp';
 import { getProxyImageUrl } from '../api';
 import styles from './Modal.module.css';
 

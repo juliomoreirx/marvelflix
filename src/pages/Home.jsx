@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import mcuData from '../data/mcu_full.json';
 import outrosFilmes from '../data/outros_filmes.json';
 import { getProxyImageUrl } from '../api';
-import posterPlaceholder from '../assets/poster_placeholder.jpg';
+import posterPlaceholder from '../assets/poster_placeholder.webp';
 import appLogo from '../assets/logo.svg';
 import Modal from '../components/Modal';
 import PlayerModal from '../components/PlayerModal';
@@ -357,7 +358,12 @@ const Home = ({ userDoc }) => {
   }
 
   return (
-    <div className="home-container">
+    <>
+      <Helmet>
+        <title>Catálogo | MarvelFlix</title>
+        <meta name="description" content="Explore o universo cinematográfico da Marvel. Filmes, séries, cronologia oficial e lançamentos em 4K." />
+      </Helmet>
+      <div className="home-container">
       <Header user={auth.currentUser} userDoc={userDoc} onLogout={handleLogout} />
       <MobileNav />
       <SearchOverlay onCardClick={setSelectedItem} />
@@ -469,6 +475,7 @@ const Home = ({ userDoc }) => {
         <WelcomeModal onClose={() => setShowWelcomeModal(false)} />
       )}
     </div>
+    </>
   );
 };
 

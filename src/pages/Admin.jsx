@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { collection, doc, setDoc, updateDoc, onSnapshot, addDoc, deleteDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -281,7 +282,12 @@ const Admin = ({ userDoc, user }) => {
   if (loading) return <div className="loader" style={{display:'flex', height:'100vh', justifyContent:'center', alignItems:'center'}}></div>;
 
   return (
-    <div className={styles.adminContainer}>
+    <>
+      <Helmet>
+        <title>Painel Administrativo | MarvelFlix</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className={styles.adminContainer}>
       <Header user={user} userDoc={userDoc} onLogout={() => navigate('/login')} />
       
       <div className={styles.adminContent}>
@@ -551,6 +557,7 @@ const Admin = ({ userDoc, user }) => {
         />
       )}
     </div>
+    </>
   );
 };
 

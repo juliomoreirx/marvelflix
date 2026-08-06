@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Helmet } from 'react-helmet-async';
 import { auth } from '../firebase';
 import gsap from 'gsap';
 import styles from './Login.module.css';
@@ -64,7 +65,12 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.splitContainer} ref={containerRef}>
+    <>
+      <Helmet>
+        <title>Login | MarvelFlix</title>
+        <meta name="description" content="Acesse a Base de Dados de Ameaças Globais (MarvelFlix) para assistir aos melhores conteúdos Marvel." />
+      </Helmet>
+      <div className={styles.splitContainer} ref={containerRef}>
       
       {/* Lado Esquerdo - Imagem Herói */}
       <div className={styles.imagePanel} ref={imageRef}>
@@ -129,8 +135,8 @@ const Login = () => {
           
         </div>
       </div>
-      
     </div>
+    </>
   );
 };
 

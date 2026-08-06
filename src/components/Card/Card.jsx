@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { getProxyImageUrl } from '../../api';
-import posterPlaceholder from '../../assets/poster_placeholder.jpg';
+import posterPlaceholder from '../../assets/poster_placeholder.webp';
 import styles from './Card.module.css';
 
 const Card = ({ item, onClick, isContinueWatching = false }) => {
